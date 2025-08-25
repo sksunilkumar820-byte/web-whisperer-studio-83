@@ -2,10 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
 const Contact = () => {
-  return (
-    <section id="contact" className="py-32 gradient-subtle">
+  return <section id="contact" className="py-32 gradient-subtle">
       <div className="container mx-auto px-6">
         <div className="text-center mb-20 animate-slide-up">
           <h2 className="text-5xl md:text-6xl font-bold mb-8 text-foreground">
@@ -29,10 +27,7 @@ const Contact = () => {
               </div>
               <Input placeholder="Email Address" type="email" className="transition-smooth text-lg py-6 shadow-card" />
               <Input placeholder="Company Name" className="transition-smooth text-lg py-6 shadow-card" />
-              <Textarea 
-                placeholder="Tell us about your project or requirements..."
-                className="min-h-40 transition-smooth text-lg shadow-card resize-none"
-              />
+              <Textarea placeholder="Tell us about your project or requirements..." className="min-h-40 transition-smooth text-lg shadow-card resize-none" />
               <Button className="w-full shadow-elegant hover:shadow-hover text-xl py-8 transition-smooth hover:scale-105" size="lg">
                 Send Message
               </Button>
@@ -49,7 +44,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-2xl mb-2">Email Us</h3>
-                    <p className="text-muted-foreground text-lg">hello@workwhirl.com</p>
+                    <p className="text-muted-foreground text-lg">Admin@workwhirl.com</p>
                   </div>
                 </div>
               </CardContent>
@@ -63,7 +58,9 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-2xl mb-2">Call Us</h3>
-                    <p className="text-muted-foreground text-lg">+1 (555) 123-4567</p>
+                    <p className="text-muted-foreground text-lg">+918006996317
+
+                  </p>
                   </div>
                 </div>
               </CardContent>
@@ -98,8 +95,6 @@ const Contact = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Contact;
