@@ -35,34 +35,35 @@ const services = [
 
 const Services = () => {
   return (
-    <section id="services" className="py-20 gradient-subtle">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
+    <section id="services" className="py-32 gradient-subtle">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-20 animate-slide-up">
+          <h2 className="text-5xl md:text-6xl font-bold mb-8 text-foreground">
             Our Expert Services
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed font-light">
             Comprehensive consulting solutions designed to accelerate your business growth 
-            and optimize your workforce potential.
+            and optimize your workforce potential with cutting-edge strategies.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {services.map((service, index) => (
             <Card 
               key={index} 
-              className="group hover:shadow-card transition-smooth cursor-pointer border-0 shadow-lg hover:-translate-y-2"
+              className="group gradient-card border-0 shadow-card hover:shadow-hover transition-smooth cursor-pointer hover:-translate-y-4 animate-scale-in"
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <CardHeader className="text-center pb-4">
-                <div className="text-4xl mb-4 group-hover:scale-110 transition-smooth">
+              <CardHeader className="text-center pb-6 pt-10">
+                <div className="text-6xl mb-6 group-hover:scale-125 transition-smooth duration-500">
                   {service.icon}
                 </div>
-                <CardTitle className="text-xl font-bold text-foreground group-hover:text-primary transition-smooth">
+                <CardTitle className="text-2xl font-bold text-foreground group-hover:text-primary transition-smooth mb-4">
                   {service.title}
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <CardDescription className="text-muted-foreground leading-relaxed text-center">
+              <CardContent className="px-8 pb-10">
+                <CardDescription className="text-muted-foreground leading-relaxed text-center text-lg">
                   {service.description}
                 </CardDescription>
               </CardContent>
