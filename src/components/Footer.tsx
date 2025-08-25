@@ -1,6 +1,5 @@
 const Footer = () => {
-  return (
-    <footer className="bg-primary text-primary-foreground py-12">
+  return <footer className="bg-primary text-primary-foreground py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
@@ -42,9 +41,13 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold text-lg mb-4">Get in Touch</h3>
             <div className="space-y-2 text-primary-foreground/80">
-              <p>hello@workwhirl.com</p>
-              <p>+1 (555) 123-4567</p>
-              <p>123 Business District<br />Suite 456, New York, NY</p>
+              <p>Admin@worwhirl.com
+
+            </p>
+              <p>+918006996317
+
+            </p>
+              <p className="mx-0">123 Business District<br />Suite 456, New York, NY</p>
             </div>
           </div>
         </div>
@@ -59,8 +62,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
