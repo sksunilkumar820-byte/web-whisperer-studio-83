@@ -30,8 +30,8 @@ const Hero = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
-            <Button className="btn-gold text-2xl px-16 py-8 text-elite hover:scale-105 transition-smooth">
-              Begin Your Journey
+            <Button className="btn-primary text-2xl px-16 py-8 text-elite hover:scale-105 transition-smooth">
+              Start Your Transformation
             </Button>
             <Button 
               size="lg" 
