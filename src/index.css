@@ -2,58 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Workwhirl Consulting - Elite Professional Design System */
+/* Workwhirl - Modern Professional Staffing Design System */
 
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --foreground: 216 12% 8%;
 
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 216 12% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover-foreground: 216 12% 8%;
 
-    /* Professional Blue System */
-    --primary: 220 85% 35%;
-    --primary-foreground: 0 0% 98%;
-    --primary-light: 220 85% 95%;
-    --primary-dark: 220 85% 25%;
+    /* Modern Professional Palette */
+    --primary: 216 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 216 100% 97%;
+    --primary-dark: 216 100% 40%;
 
-    /* Premium Accent Blue */
-    --accent: 210 75% 50%;
-    --accent-foreground: 0 0% 98%;
-    --accent-light: 210 75% 85%;
-    --accent-dark: 210 75% 35%;
+    /* Premium Accent */
+    --accent: 45 93% 47%;
+    --accent-foreground: 216 12% 8%;
+    --accent-light: 45 93% 95%;
+    --accent-dark: 45 93% 35%;
 
-    /* Refined Neutrals */
-    --secondary: 240 5% 96%;
-    --secondary-foreground: 240 6% 10%;
+    /* Sophisticated Neutrals */
+    --secondary: 216 12% 97%;
+    --secondary-foreground: 216 12% 8%;
 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
+    --muted: 216 12% 96%;
+    --muted-foreground: 216 12% 45%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 6% 10%;
+    --border: 216 12% 90%;
+    --input: 216 12% 95%;
+    --ring: 216 100% 50%;
 
-    /* Premium Blue Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(220 85% 35%) 0%, hsl(220 85% 25%) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(220 85% 25%) 0%, hsl(220 85% 35%) 50%, hsl(210 75% 50% / 0.1) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(210 75% 50%) 0%, hsl(210 75% 35%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(220 85% 95%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(220 85% 98%) 100%);
+    /* Modern Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(216 100% 50%) 0%, hsl(216 100% 40%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(216 12% 8%) 0%, hsl(216 100% 50% / 0.9) 50%, hsl(216 100% 40% / 0.8) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(45 93% 47%) 0%, hsl(45 93% 35%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(216 12% 98%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(216 12% 99%) 100%);
+    --gradient-section: linear-gradient(180deg, hsl(216 12% 98%) 0%, hsl(0 0% 100%) 100%);
     
     /* Professional Shadows */
-    --shadow-elegant: 0 25px 50px -12px hsl(220 85% 35% / 0.25);
-    --shadow-blue: 0 8px 32px -8px hsl(210 75% 50% / 0.3);
-    --shadow-card: 0 4px 16px -4px hsl(220 85% 35% / 0.1);
-    --shadow-hover: 0 20px 40px -8px hsl(220 85% 35% / 0.2);
-    --shadow-glow: 0 0 40px hsl(210 75% 50% / 0.15);
+    --shadow-elegant: 0 25px 50px -12px hsl(216 100% 50% / 0.15);
+    --shadow-card: 0 4px 20px -4px hsl(216 12% 8% / 0.08);
+    --shadow-hover: 0 20px 40px -8px hsl(216 100% 50% / 0.2);
+    --shadow-glow: 0 0 40px hsl(216 100% 50% / 0.1);
+    --shadow-soft: 0 2px 10px -2px hsl(216 12% 8% / 0.05);
 
     /* Refined Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -102,12 +103,13 @@
     --input: 240 6% 15%;
     --ring: 45 96% 53%;
 
-    /* Dark mode blue gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(220 85% 25%) 0%, hsl(220 85% 35%) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(220 85% 25%) 0%, hsl(220 85% 35%) 50%, hsl(210 75% 50% / 0.1) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(210 75% 50%) 0%, hsl(210 75% 35%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(220 85% 25%) 0%, hsl(220 85% 35%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(220 85% 25%) 0%, hsl(220 85% 35%) 100%);
+    /* Dark mode gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(216 100% 40%) 0%, hsl(216 100% 50%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(216 12% 5%) 0%, hsl(216 100% 40% / 0.9) 50%, hsl(216 100% 50% / 0.8) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(45 93% 55%) 0%, hsl(45 93% 47%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(216 12% 8%) 0%, hsl(216 12% 12%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(216 12% 8%) 0%, hsl(216 12% 12%) 100%);
+    --gradient-section: linear-gradient(180deg, hsl(216 12% 8%) 0%, hsl(216 12% 10%) 100%);
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -137,8 +139,12 @@
     background: var(--gradient-hero);
   }
 
-  .gradient-gold {
-    background: var(--gradient-gold);
+  .gradient-accent {
+    background: var(--gradient-accent);
+  }
+
+  .gradient-section {
+    background: var(--gradient-section);
   }
 
   .gradient-subtle {
@@ -153,8 +159,8 @@
     box-shadow: var(--shadow-elegant);
   }
 
-  .shadow-gold {
-    box-shadow: var(--shadow-gold);
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
   }
 
   .shadow-glow {
@@ -192,7 +198,7 @@
   .btn-primary {
     background: var(--gradient-primary);
     color: hsl(var(--primary-foreground));
-    box-shadow: var(--shadow-blue);
+    box-shadow: var(--shadow-elegant);
     border: none;
     transition: var(--transition-smooth);
   }
@@ -200,6 +206,20 @@
   .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-hover);
+  }
+
+  .btn-accent {
+    background: var(--gradient-accent);
+    color: hsl(var(--accent-foreground));
+    box-shadow: var(--shadow-soft);
+    border: none;
+    transition: var(--transition-smooth);
+    font-weight: 600;
+  }
+
+  .btn-accent:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-elegant);
   }
 
   .card-elite {

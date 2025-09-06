@@ -1,125 +1,121 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Phone, Mail, MapPin } from "lucide-react";
 
 const Contact = () => {
   return (
-    <section id="contact" className="py-40 gradient-subtle">
-      <div className="container mx-auto px-8">
-        <div className="text-center mb-24 animate-slide-up">
-          <h2 className="text-6xl md:text-8xl font-bold mb-12 text-foreground text-elite">
-            Begin Your Transformation
+    <section id="contact" className="py-20 gradient-section">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-16 animate-fade-in">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+            Ready to Get Started?
           </h2>
-          <p className="text-3xl text-muted-foreground max-w-4xl mx-auto leading-relaxed text-luxury">
-            Connect with our elite consultants to explore how we can elevate 
-            your organization to unprecedented levels of success.
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            Connect with our team of staffing experts and discover how we can help 
+            transform your workforce strategy and drive business growth.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <Card className="card-elite p-12 animate-scale-in">
-            <CardHeader className="text-center pb-12">
-              <CardTitle className="text-4xl font-bold text-foreground text-elite mb-6">
-                Let's Connect
-              </CardTitle>
-              <p className="text-xl text-muted-foreground text-luxury">
-                Share your vision and challenges with us
-              </p>
-            </CardHeader>
-            <CardContent className="space-y-8">
+          <div className="card-elite p-8 animate-slide-up">
+            <h3 className="text-2xl font-bold text-foreground mb-8">Get In Touch</h3>
+            
+            <form className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="text-lg font-semibold text-foreground mb-3 block text-elite">First Name</label>
-                  <Input className="h-14 text-lg border-2 focus:border-accent transition-smooth" placeholder="John" />
+                  <label className="block text-sm font-medium text-foreground mb-2">First Name</label>
+                  <input 
+                    type="text" 
+                    className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none transition-smooth"
+                    placeholder="John"
+                  />
                 </div>
                 <div>
-                  <label className="text-lg font-semibold text-foreground mb-3 block text-elite">Last Name</label>
-                  <Input className="h-14 text-lg border-2 focus:border-accent transition-smooth" placeholder="Smith" />
+                  <label className="block text-sm font-medium text-foreground mb-2">Last Name</label>
+                  <input 
+                    type="text" 
+                    className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none transition-smooth"
+                    placeholder="Doe"
+                  />
                 </div>
               </div>
+              
               <div>
-                <label className="text-lg font-semibold text-foreground mb-3 block text-elite">Email Address</label>
-                <Input className="h-14 text-lg border-2 focus:border-accent transition-smooth" placeholder="john@company.com" />
-              </div>
-              <div>
-                <label className="text-lg font-semibold text-foreground mb-3 block text-elite">Company</label>
-                <Input className="h-14 text-lg border-2 focus:border-accent transition-smooth" placeholder="Your Company" />
-              </div>
-              <div>
-                <label className="text-lg font-semibold text-foreground mb-3 block text-elite">Project Details</label>
-                <Textarea 
-                  className="min-h-[120px] text-lg border-2 focus:border-accent transition-smooth resize-none" 
-                  placeholder="Tell us about your transformation goals and challenges..."
+                <label className="block text-sm font-medium text-foreground mb-2">Email</label>
+                <input 
+                  type="email" 
+                  className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none transition-smooth"
+                  placeholder="john.doe@company.com"
                 />
               </div>
-              <Button className="btn-gold w-full text-2xl py-6 text-elite hover:scale-105 transition-smooth">
-                Start the Conversation
+              
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">Company</label>
+                <input 
+                  type="text" 
+                  className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none transition-smooth"
+                  placeholder="Your Company"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">Message</label>
+                <textarea 
+                  rows={5}
+                  className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none transition-smooth resize-none"
+                  placeholder="Tell us about your staffing needs..."
+                />
+              </div>
+              
+              <Button className="btn-primary px-8 py-3 w-full font-semibold">
+                Send Message
               </Button>
-            </CardContent>
-          </Card>
+            </form>
+          </div>
 
           {/* Contact Information */}
-          <div className="space-y-12 animate-scale-in" style={{ animationDelay: '0.2s' }}>
-            <Card className="card-elite p-12">
-              <CardHeader className="pb-8">
-                <CardTitle className="text-3xl font-bold text-foreground text-elite flex items-center">
-                  <span className="w-12 h-12 gradient-gold rounded-2xl flex items-center justify-center mr-6 shadow-gold">
-                    📧
-                  </span>
-                  Email Us
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-xl text-muted-foreground text-luxury">
-                  admin@workwhirl.com
-                </p>
-                <p className="text-lg text-muted-foreground mt-2 text-luxury">
-                  Response within 2 hours during business days
-                </p>
-              </CardContent>
-            </Card>
+          <div className="space-y-6 animate-fade-in">
+            <div className="card-elite p-6">
+              <div className="flex items-center space-x-4 mb-4">
+                <div className="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center shadow-soft">
+                  <Phone className="w-6 h-6 text-primary-foreground" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-foreground">Call Us</h3>
+                  <p className="text-sm text-muted-foreground">Ready to discuss your needs</p>
+                </div>
+              </div>
+              <p className="text-lg font-semibold text-primary">+1 (555) 123-4567</p>
+            </div>
 
-            <Card className="card-elite p-12">
-              <CardHeader className="pb-8">
-                <CardTitle className="text-3xl font-bold text-foreground text-elite flex items-center">
-                  <span className="w-12 h-12 gradient-gold rounded-2xl flex items-center justify-center mr-6 shadow-gold">
-                    📞
-                  </span>
-                  Call Us
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-xl text-muted-foreground text-luxury">
-                  +91 8006996317
-                </p>
-                <p className="text-lg text-muted-foreground mt-2 text-luxury">
-                  Available Monday - Friday, 9 AM - 6 PM EST
-                </p>
-              </CardContent>
-            </Card>
+            <div className="card-elite p-6">
+              <div className="flex items-center space-x-4 mb-4">
+                <div className="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center shadow-soft">
+                  <Mail className="w-6 h-6 text-primary-foreground" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-foreground">Email Us</h3>
+                  <p className="text-sm text-muted-foreground">Get a detailed response</p>
+                </div>
+              </div>
+              <p className="text-lg font-semibold text-primary">hello@workwhirl.com</p>
+            </div>
 
-            <Card className="card-elite p-12">
-              <CardHeader className="pb-8">
-                <CardTitle className="text-3xl font-bold text-foreground text-elite flex items-center">
-                  <span className="w-12 h-12 gradient-gold rounded-2xl flex items-center justify-center mr-6 shadow-gold">
-                    🏢
-                  </span>
-                  Visit Us
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-xl text-muted-foreground text-luxury">
-                  123 Elite Business Plaza<br />
-                  Suite 4500, Manhattan<br />
-                  New York, NY 10001
-                </p>
-                <p className="text-lg text-muted-foreground mt-4 text-luxury">
-                  By appointment only
-                </p>
-              </CardContent>
-            </Card>
+            <div className="card-elite p-6">
+              <div className="flex items-center space-x-4 mb-4">
+                <div className="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center shadow-soft">
+                  <MapPin className="w-6 h-6 text-primary-foreground" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-foreground">Visit Us</h3>
+                  <p className="text-sm text-muted-foreground">Our headquarters</p>
+                </div>
+              </div>
+              <p className="text-lg font-semibold text-primary">
+                123 Business District<br />
+                New York, NY 10001
+              </p>
+            </div>
           </div>
         </div>
       </div>

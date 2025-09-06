@@ -2,79 +2,83 @@ import { Button } from "@/components/ui/button";
 
 const About = () => {
   return (
-    <section id="about" className="py-40 bg-background">
-      <div className="container mx-auto px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-          <div className="animate-slide-up">
-            <h2 className="text-6xl md:text-8xl font-bold mb-12 text-foreground text-elite">
-              Why Elite Leaders Choose 
-              <span className="text-accent block mt-4">Workwhirl</span>
+    <section id="about" className="py-20 bg-background">
+      <div className="container mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-8">
+              Why Choose 
+              <span className="block text-primary">Workwhirl</span>
             </h2>
             
-            <div className="space-y-12 mb-16">
-              <div className="flex items-start space-x-8">
-                <div className="w-12 h-12 gradient-gold rounded-2xl flex-shrink-0 mt-2 shadow-gold flex items-center justify-center">
-                  <span className="text-accent-foreground font-bold text-xl">01</span>
-                </div>
+            <p className="text-lg text-muted-foreground leading-relaxed mb-10">
+              With over two decades of industry leadership, Workwhirl has established itself 
+              as the premier partner for organizations seeking transformative staffing solutions. 
+              Our commitment to excellence drives every client partnership.
+            </p>
+
+            <div className="space-y-6">
+              <div className="flex items-start space-x-4">
+                <div className="w-3 h-3 bg-primary rounded-full flex-shrink-0 mt-2"></div>
                 <div>
-                  <h3 className="text-3xl font-semibold mb-6 text-elite">Unparalleled Expertise</h3>
-                  <p className="text-muted-foreground text-xl leading-relaxed text-luxury">
-                    Two decades of excellence serving Fortune 500 companies with strategic insights 
-                    that drive measurable transformation and sustainable competitive advantages.
+                  <h3 className="text-lg font-semibold text-foreground mb-2">Strategic Partnership Approach</h3>
+                  <p className="text-muted-foreground">
+                    We build lasting partnerships that drive sustained growth and business success.
                   </p>
                 </div>
               </div>
-              
-              <div className="flex items-start space-x-8">
-                <div className="w-12 h-12 gradient-gold rounded-2xl flex-shrink-0 mt-2 shadow-gold flex items-center justify-center">
-                  <span className="text-accent-foreground font-bold text-xl">02</span>
-                </div>
+
+              <div className="flex items-start space-x-4">
+                <div className="w-3 h-3 bg-primary rounded-full flex-shrink-0 mt-2"></div>
                 <div>
-                  <h3 className="text-3xl font-semibold mb-6 text-elite">Bespoke Solutions</h3>
-                  <p className="text-muted-foreground text-xl leading-relaxed text-luxury">
-                    Meticulously crafted strategies that align perfectly with your vision, 
-                    organizational DNA, and ambitious growth objectives for maximum impact.
+                  <h3 className="text-lg font-semibold text-foreground mb-2">Industry Expertise</h3>
+                  <p className="text-muted-foreground">
+                    Deep domain knowledge across multiple industries ensures precise talent matching.
                   </p>
                 </div>
               </div>
-              
-              <div className="flex items-start space-x-8">
-                <div className="w-12 h-12 gradient-gold rounded-2xl flex-shrink-0 mt-2 shadow-gold flex items-center justify-center">
-                  <span className="text-accent-foreground font-bold text-xl">03</span>
-                </div>
+
+              <div className="flex items-start space-x-4">
+                <div className="w-3 h-3 bg-primary rounded-full flex-shrink-0 mt-2"></div>
                 <div>
-                  <h3 className="text-3xl font-semibold mb-6 text-elite">Exceptional Results</h3>
-                  <p className="text-muted-foreground text-xl leading-relaxed text-luxury">
-                    Proven track record of delivering extraordinary outcomes that exceed expectations 
-                    and establish new benchmarks for operational excellence and market leadership.
+                  <h3 className="text-lg font-semibold text-foreground mb-2">Innovation-Driven Solutions</h3>
+                  <p className="text-muted-foreground">
+                    Cutting-edge methodologies and technology integration for superior outcomes.
                   </p>
                 </div>
               </div>
             </div>
 
-            <Button className="btn-gold text-2xl px-12 py-8 text-elite hover:scale-105 transition-smooth">
-              Discover Our Methodology
+            <Button className="btn-primary px-8 py-3 font-semibold mt-8">
+              Learn More About Us
             </Button>
           </div>
 
-          <div className="relative animate-scale-in">
-            <div className="card-elite rounded-3xl p-16 shadow-elegant bg-gradient-to-br from-white to-secondary">
-              <div className="grid grid-cols-2 gap-10 text-center">
-                <div className="p-10 bg-white rounded-3xl shadow-card hover:shadow-hover transition-smooth card-elite">
-                  <div className="text-5xl font-bold text-accent mb-4 text-elite">1000+</div>
-                  <div className="text-muted-foreground text-xl text-luxury">Elite Projects</div>
-                </div>
-                <div className="p-10 bg-white rounded-3xl shadow-card hover:shadow-hover transition-smooth card-elite">
-                  <div className="text-5xl font-bold text-accent mb-4 text-elite">500+</div>
-                  <div className="text-muted-foreground text-xl text-luxury">Global Clients</div>
-                </div>
-                <div className="p-10 bg-white rounded-3xl shadow-card hover:shadow-hover transition-smooth card-elite">
-                  <div className="text-5xl font-bold text-accent mb-4 text-elite">20+</div>
-                  <div className="text-muted-foreground text-xl text-luxury">Years Excellence</div>
-                </div>
-                <div className="p-10 bg-white rounded-3xl shadow-card hover:shadow-hover transition-smooth card-elite">
-                  <div className="text-5xl font-bold text-accent mb-4 text-elite">24/7</div>
-                  <div className="text-muted-foreground text-xl text-luxury">Elite Support</div>
+          <div className="animate-slide-up">
+            <div className="relative">
+              <div className="absolute inset-0 gradient-primary rounded-2xl transform rotate-2 shadow-soft"></div>
+              <div className="relative bg-background rounded-2xl p-8 shadow-card">
+                <div className="text-center">
+                  <h3 className="text-2xl font-bold text-foreground mb-6">Our Impact</h3>
+                  
+                  <div className="grid grid-cols-2 gap-6">
+                    <div>
+                      <div className="text-3xl font-bold text-primary mb-1">500+</div>
+                      <div className="text-sm text-muted-foreground">Companies Served</div>
+                    </div>
+                    <div>
+                      <div className="text-3xl font-bold text-primary mb-1">98%</div>
+                      <div className="text-sm text-muted-foreground">Success Rate</div>
+                    </div>
+                    <div>
+                      <div className="text-3xl font-bold text-primary mb-1">20+</div>
+                      <div className="text-sm text-muted-foreground">Years Experience</div>
+                    </div>
+                    <div>
+                      <div className="text-3xl font-bold text-primary mb-1">15</div>
+                      <div className="text-sm text-muted-foreground">Industries</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
