@@ -1,16 +1,10 @@
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-consulting.jpg";
-
 const Hero = () => {
-  return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+  return <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <img 
-          src={heroImage} 
-          alt="Professional staffing consultants in modern workspace" 
-          className="w-full h-full object-cover"
-        />
+        <img src={heroImage} alt="Professional staffing consultants in modern workspace" className="w-full h-full object-cover" />
         <div className="absolute inset-0 gradient-hero opacity-95"></div>
       </div>
 
@@ -33,10 +27,7 @@ const Hero = () => {
             <Button className="btn-primary text-lg px-8 py-4 font-semibold hover:scale-105 transition-smooth">
               Discover Our Solutions
             </Button>
-            <Button 
-              variant="outline" 
-              className="border-2 border-white/50 text-white hover:bg-white/20 backdrop-blur-sm text-lg px-8 py-4 transition-smooth hover:scale-105"
-            >
+            <Button variant="outline" className="border-2 border-white/50 hover:bg-white/20 backdrop-blur-sm text-lg px-8 py-4 transition-smooth hover:scale-105 text-slate-950">
               Schedule Consultation
             </Button>
           </div>
@@ -45,11 +36,11 @@ const Hero = () => {
           <div className="flex flex-wrap justify-center items-center gap-8 text-white/70 text-sm">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-accent rounded-full"></div>
-              <span>500+ Companies Served</span>
+              <span>50+ Companies Served</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-accent rounded-full"></div>
-              <span>98% Client Satisfaction</span>
+              <span>95% Client Satisfaction</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-accent rounded-full"></div>
@@ -68,8 +59,6 @@ const Hero = () => {
           </svg>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;

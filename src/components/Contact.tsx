@@ -1,9 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Phone, Mail, MapPin } from "lucide-react";
-
 const Contact = () => {
-  return (
-    <section id="contact" className="py-20 gradient-section">
+  return <section id="contact" className="py-20 gradient-section">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
@@ -24,47 +22,27 @@ const Contact = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">First Name</label>
-                  <input 
-                    type="text" 
-                    className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none transition-smooth"
-                    placeholder="John"
-                  />
+                  <input type="text" className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none transition-smooth" placeholder="John" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">Last Name</label>
-                  <input 
-                    type="text" 
-                    className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none transition-smooth"
-                    placeholder="Doe"
-                  />
+                  <input type="text" className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none transition-smooth" placeholder="Doe" />
                 </div>
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">Email</label>
-                <input 
-                  type="email" 
-                  className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none transition-smooth"
-                  placeholder="john.doe@company.com"
-                />
+                <input type="email" className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none transition-smooth" placeholder="john.doe@company.com" />
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">Company</label>
-                <input 
-                  type="text" 
-                  className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none transition-smooth"
-                  placeholder="Your Company"
-                />
+                <input type="text" className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none transition-smooth" placeholder="Your Company" />
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">Message</label>
-                <textarea 
-                  rows={5}
-                  className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none transition-smooth resize-none"
-                  placeholder="Tell us about your staffing needs..."
-                />
+                <textarea rows={5} className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none transition-smooth resize-none" placeholder="Tell us about your staffing needs..." />
               </div>
               
               <Button className="btn-primary px-8 py-3 w-full font-semibold">
@@ -85,7 +63,8 @@ const Contact = () => {
                   <p className="text-sm text-muted-foreground">Ready to discuss your needs</p>
                 </div>
               </div>
-              <p className="text-lg font-semibold text-primary">+1 (555) 123-4567</p>
+              <p className="text-lg font-semibold text-primary">+918006996317
++91798224448</p>
             </div>
 
             <div className="card-elite p-6">
@@ -98,7 +77,7 @@ const Contact = () => {
                   <p className="text-sm text-muted-foreground">Get a detailed response</p>
                 </div>
               </div>
-              <p className="text-lg font-semibold text-primary">hello@workwhirl.com</p>
+              <p className="text-lg font-semibold text-primary">Admin@workwhirl.com</p>
             </div>
 
             <div className="card-elite p-6">
@@ -119,8 +98,6 @@ const Contact = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Contact;
