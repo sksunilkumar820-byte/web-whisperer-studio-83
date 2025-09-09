@@ -1,24 +1,24 @@
 const Statistics = () => {
   const stats = [
     {
-      number: "500+",
-      label: "Global Clients",
-      description: "Fortune 500 companies trust our expertise"
+      number: "25+",
+      label: "Active Clients",
+      description: "Growing partnerships in 5 months"
     },
     {
-      number: "15+",
-      label: "Years Experience", 
-      description: "Delivering excellence across industries"
+      number: "150+",
+      label: "Successful Placements", 
+      description: "Quality matches since our launch"
     },
     {
-      number: "95%",
-      label: "Success Rate",
-      description: "Projects completed on time and budget"
+      number: "92%",
+      label: "Client Satisfaction",
+      description: "Exceeding expectations from day one"
     },
     {
-      number: "$2B+",
-      label: "Value Generated",
-      description: "Measurable impact for our clients"
+      number: "48hrs",
+      label: "Average Response Time",
+      description: "Quick turnaround for urgent needs"
     }
   ];
 
