@@ -91,8 +91,9 @@ const Contact = () => {
                 </div>
               </div>
               <p className="text-lg font-semibold text-primary">
-                123 Business District<br />
-                New York, NY 10001
+                House No. 95B Second Floor<br />
+                Sector 18A Dwarka<br />
+                New Delhi 110078
               </p>
             </div>
           </div>
