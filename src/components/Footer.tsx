@@ -66,9 +66,9 @@ const Footer = () => {
               <div className="flex items-start space-x-4">
                 <span className="w-8 h-8 gradient-gold rounded-xl flex items-center justify-center text-sm shadow-gold mt-1">🏢</span>
                 <p className="text-lg text-luxury">
-                  123 Elite Business Plaza<br />
-                  Suite 4500, Manhattan<br />
-                  New York, NY 10001
+                  House No. 95B Second Floor<br />
+                  Sector 18A Dwarka<br />
+                  New Delhi 110078
                 </p>
               </div>
             </div>
