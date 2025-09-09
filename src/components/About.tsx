@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button";
-
 const About = () => {
-  return (
-    <section id="about" className="py-20 bg-background">
+  return <section id="about" className="py-20 bg-background">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="animate-fade-in">
@@ -63,7 +61,7 @@ const About = () => {
                   
                   <div className="grid grid-cols-2 gap-6">
                     <div>
-                      <div className="text-3xl font-bold text-primary mb-1">500+</div>
+                      <div className="text-3xl font-bold text-primary mb-1">50+</div>
                       <div className="text-sm text-muted-foreground">Companies Served</div>
                     </div>
                     <div>
@@ -71,7 +69,7 @@ const About = () => {
                       <div className="text-sm text-muted-foreground">Success Rate</div>
                     </div>
                     <div>
-                      <div className="text-3xl font-bold text-primary mb-1">20+</div>
+                      <div className="text-3xl font-bold text-primary mb-1">2+</div>
                       <div className="text-sm text-muted-foreground">Years Experience</div>
                     </div>
                     <div>
@@ -85,8 +83,6 @@ const About = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default About;
