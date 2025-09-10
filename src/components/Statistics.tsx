@@ -6,7 +6,7 @@ const Statistics = () => {
       description: "Growing partnerships in 5 months"
     },
     {
-      number: "150+",
+      number: "1500+",
       label: "Successful Placements", 
       description: "Quality matches since our launch"
     },
