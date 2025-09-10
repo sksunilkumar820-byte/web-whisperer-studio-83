@@ -1,4 +1,4 @@
-import { Users, Search, TrendingUp, Target, Building, Globe, CheckCircle, PenTool, UserCheck, Calculator } from "lucide-react";
+import { Users, Search, TrendingUp, Target, Building, Globe, CheckCircle, Megaphone, UserCheck, Calculator } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const services = [
@@ -39,10 +39,10 @@ const services = [
     features: ["International Placement", "Visa Support", "Relocation Services"]
   },
   {
-    title: "Content Writing",
-    description: "Professional content creation for websites, blogs, marketing materials, and corporate communications.",
-    icon: PenTool,
-    features: ["Website Content", "Blog Writing", "Marketing Copy"]
+    title: "Marketing Services",
+    description: "Comprehensive digital marketing solutions including content creation, social media management, and brand development.",
+    icon: Megaphone,
+    features: ["Content Writing", "Social Media Marketing", "Brand Development"]
   },
   {
     title: "HR Consulting",
