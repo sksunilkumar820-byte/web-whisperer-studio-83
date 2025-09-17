@@ -65,7 +65,7 @@ const About = () => {
                       <div className="text-sm text-muted-foreground">Companies Served</div>
                     </div>
                     <div>
-                      <div className="text-3xl font-bold text-primary mb-1">98%</div>
+                      <div className="text-3xl font-bold text-primary mb-1">94%</div>
                       <div className="text-sm text-muted-foreground">Success Rate</div>
                     </div>
                     <div>
