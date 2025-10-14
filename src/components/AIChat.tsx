@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Send, Bot, User } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import logo from "@/assets/logo-option-1.png";
 
 interface Message {
   role: "user" | "assistant";
@@ -146,7 +147,10 @@ const AIChat = () => {
     <section className="py-20 px-4 bg-muted/30">
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4">AI Assistant</h2>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <img src={logo} alt="Company Logo" className="w-12 h-12 object-contain" />
+            <h2 className="text-4xl font-bold">AI Assistant</h2>
+          </div>
           <p className="text-lg text-muted-foreground">
             Ask me anything about our consulting services, business strategy, or technology solutions
           </p>
