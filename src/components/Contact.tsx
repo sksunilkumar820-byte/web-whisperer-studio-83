@@ -77,7 +77,7 @@ const Contact = () => {
                   <p className="text-sm text-muted-foreground">Get a detailed response</p>
                 </div>
               </div>
-              <p className="text-lg font-semibold text-primary">Admin@workwhirl.com</p>
+              <p className="text-lg font-semibold text-primary">contact@workwhirl.com</p>
             </div>
 
             <div className="card-elite p-6">

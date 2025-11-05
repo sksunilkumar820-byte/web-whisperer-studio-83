@@ -57,7 +57,7 @@ const Footer = () => {
             <div className="space-y-6 text-primary-foreground/80">
               <div className="flex items-center space-x-4">
                 <span className="w-8 h-8 gradient-gold rounded-xl flex items-center justify-center text-sm shadow-gold">📧</span>
-                <p className="text-lg text-luxury">admin@workwhirl.com</p>
+                <p className="text-lg text-luxury">contact@workwhirl.com</p>
               </div>
               <div className="flex items-center space-x-4">
                 <span className="w-8 h-8 gradient-gold rounded-xl flex items-center justify-center text-sm shadow-gold">📞</span>
