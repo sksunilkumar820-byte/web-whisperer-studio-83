@@ -4,9 +4,12 @@ import Statistics from "@/components/Statistics";
 import Services from "@/components/Services";
 import Industries from "@/components/Industries";
 import About from "@/components/About";
-import AIChat from "@/components/AIChat";
+import Blog from "@/components/Blog";
+import Newsletter from "@/components/Newsletter";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import CookieConsent from "@/components/CookieConsent";
+import LiveChat from "@/components/LiveChat";
 
 const Index = () => {
   return (
@@ -17,9 +20,12 @@ const Index = () => {
       <Services />
       <Industries />
       <About />
-      <AIChat />
+      <Blog />
+      <Newsletter />
       <Contact />
       <Footer />
+      <CookieConsent />
+      <LiveChat />
     </div>
   );
 };
