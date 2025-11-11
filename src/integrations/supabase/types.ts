@@ -44,6 +44,116 @@ export type Database = {
         }
         Relationships: []
       }
+      job_applications: {
+        Row: {
+          application_status: Database["public"]["Enums"]["application_status"]
+          applied_at: string
+          cover_letter: string
+          email: string
+          full_name: string
+          id: string
+          job_id: string
+          linkedin_url: string | null
+          location: string | null
+          phone: string
+          portfolio_url: string | null
+          resume_url: string | null
+          updated_at: string
+          years_of_experience: number | null
+        }
+        Insert: {
+          application_status?: Database["public"]["Enums"]["application_status"]
+          applied_at?: string
+          cover_letter: string
+          email: string
+          full_name: string
+          id?: string
+          job_id: string
+          linkedin_url?: string | null
+          location?: string | null
+          phone: string
+          portfolio_url?: string | null
+          resume_url?: string | null
+          updated_at?: string
+          years_of_experience?: number | null
+        }
+        Update: {
+          application_status?: Database["public"]["Enums"]["application_status"]
+          applied_at?: string
+          cover_letter?: string
+          email?: string
+          full_name?: string
+          id?: string
+          job_id?: string
+          linkedin_url?: string | null
+          location?: string | null
+          phone?: string
+          portfolio_url?: string | null
+          resume_url?: string | null
+          updated_at?: string
+          years_of_experience?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "job_applications_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "job_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      job_listings: {
+        Row: {
+          closing_date: string | null
+          created_at: string
+          department: string
+          description: string
+          id: string
+          job_type: Database["public"]["Enums"]["job_type"]
+          location: string
+          posted_date: string
+          requirements: string
+          responsibilities: string
+          salary_range: string | null
+          status: Database["public"]["Enums"]["job_status"]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          closing_date?: string | null
+          created_at?: string
+          department: string
+          description: string
+          id?: string
+          job_type?: Database["public"]["Enums"]["job_type"]
+          location: string
+          posted_date?: string
+          requirements: string
+          responsibilities: string
+          salary_range?: string | null
+          status?: Database["public"]["Enums"]["job_status"]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          closing_date?: string | null
+          created_at?: string
+          department?: string
+          description?: string
+          id?: string
+          job_type?: Database["public"]["Enums"]["job_type"]
+          location?: string
+          posted_date?: string
+          requirements?: string
+          responsibilities?: string
+          salary_range?: string | null
+          status?: Database["public"]["Enums"]["job_status"]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       newsletter_subscribers: {
         Row: {
           email: string
@@ -73,7 +183,15 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      application_status:
+        | "pending"
+        | "reviewing"
+        | "shortlisted"
+        | "interviewed"
+        | "rejected"
+        | "hired"
+      job_status: "open" | "closed" | "draft"
+      job_type: "full-time" | "part-time" | "contract" | "internship"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -200,6 +318,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      application_status: [
+        "pending",
+        "reviewing",
+        "shortlisted",
+        "interviewed",
+        "rejected",
+        "hired",
+      ],
+      job_status: ["open", "closed", "draft"],
+      job_type: ["full-time", "part-time", "contract", "internship"],
+    },
   },
 } as const
