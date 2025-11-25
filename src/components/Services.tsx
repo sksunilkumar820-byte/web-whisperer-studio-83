@@ -1,60 +1,70 @@
 import { Users, Search, TrendingUp, Target, Building, Globe, CheckCircle, Megaphone, UserCheck, Calculator } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const services = [
   {
     title: "Executive Search",
     description: "Strategic recruitment for C-suite executives and senior leadership positions across all industries.",
     icon: Target,
-    features: ["C-Suite Recruitment", "Board Placement", "Succession Planning"]
+    features: ["C-Suite Recruitment", "Board Placement", "Succession Planning"],
+    slug: "executive-search"
   },
   {
     title: "Direct Hire",
     description: "Permanent staffing solutions for professional and technical positions with guaranteed quality placement.",
     icon: Users,
-    features: ["Professional Placement", "Technical Roles", "Quality Guarantee"]
+    features: ["Professional Placement", "Technical Roles", "Quality Guarantee"],
+    slug: "direct-hire"
   },
   {
     title: "Contract Staffing",
     description: "Flexible workforce solutions including contract, contract-to-hire, and project-based staffing.",
     icon: TrendingUp,
-    features: ["Contract Workers", "Contract-to-Hire", "Project Teams"]
+    features: ["Contract Workers", "Contract-to-Hire", "Project Teams"],
+    slug: "contract-staffing"
   },
   {
     title: "Talent Advisory",
     description: "Strategic workforce consulting including market intelligence and compensation benchmarking.",
     icon: Search,
-    features: ["Market Intelligence", "Salary Benchmarking", "Talent Strategy"]
+    features: ["Market Intelligence", "Salary Benchmarking", "Talent Strategy"],
+    slug: "talent-advisory"
   },
   {
     title: "RPO Services",
     description: "Recruitment Process Outsourcing for organizations seeking scalable talent acquisition solutions.",
     icon: Building,
-    features: ["Full RPO", "Project RPO", "Hybrid Solutions"]
+    features: ["Full RPO", "Project RPO", "Hybrid Solutions"],
+    slug: "rpo-services"
   },
   {
     title: "Global Mobility",
     description: "International staffing and relocation services for multinational organizations and global expansion.",
     icon: Globe,
-    features: ["International Placement", "Visa Support", "Relocation Services"]
+    features: ["International Placement", "Visa Support", "Relocation Services"],
+    slug: "global-mobility"
   },
   {
     title: "Marketing Services",
     description: "Comprehensive digital marketing solutions including content creation, social media management, and brand development.",
     icon: Megaphone,
-    features: ["Content Writing", "Social Media Marketing", "Brand Development"]
+    features: ["Content Writing", "Social Media Marketing", "Brand Development"],
+    slug: "marketing-services"
   },
   {
     title: "HR Consulting",
     description: "Strategic human resources consulting including policy development, compliance, and organizational design.",
     icon: UserCheck,
-    features: ["Policy Development", "Compliance Management", "Organizational Design"]
+    features: ["Policy Development", "Compliance Management", "Organizational Design"],
+    slug: "hr-consulting"
   },
   {
     title: "Payroll Management",
     description: "Complete payroll processing services including tax compliance, benefits administration, and reporting.",
     icon: Calculator,
-    features: ["Payroll Processing", "Tax Compliance", "Benefits Administration"]
+    features: ["Payroll Processing", "Tax Compliance", "Benefits Administration"],
+    slug: "payroll-management"
   }
 ];
 
@@ -74,9 +84,10 @@ const Services = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <div 
-              key={index} 
-              className="card-elite p-8 hover:scale-105 animate-slide-up group"
+            <Link
+              key={index}
+              to={`/services/${service.slug}`}
+              className="card-elite p-8 hover:scale-105 animate-slide-up group block"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div className="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mb-6 shadow-soft group-hover:shadow-glow transition-smooth">
@@ -99,7 +110,7 @@ const Services = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
