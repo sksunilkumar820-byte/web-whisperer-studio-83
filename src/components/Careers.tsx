@@ -7,6 +7,7 @@ import { MapPin, Briefcase, Calendar, Search, Filter, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import JobApplication from "./JobApplication";
+import JobAlerts from "./JobAlerts";
 
 interface JobListing {
   id: string;
@@ -132,6 +133,11 @@ const Careers = () => {
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto text-luxury">
             Build your career with industry leaders. Explore opportunities to make an impact and grow professionally.
           </p>
+        </div>
+
+        {/* Job Alerts Section */}
+        <div className="max-w-2xl mx-auto mb-16">
+          <JobAlerts />
         </div>
 
         {/* Search and Filter Section */}
