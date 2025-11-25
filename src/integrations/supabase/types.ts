@@ -44,6 +44,42 @@ export type Database = {
         }
         Relationships: []
       }
+      job_alerts: {
+        Row: {
+          active: boolean
+          created_at: string
+          department: string | null
+          email: string
+          id: string
+          job_type: string | null
+          keywords: string | null
+          location: string | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          department?: string | null
+          email: string
+          id?: string
+          job_type?: string | null
+          keywords?: string | null
+          location?: string | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          department?: string | null
+          email?: string
+          id?: string
+          job_type?: string | null
+          keywords?: string | null
+          location?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       job_applications: {
         Row: {
           application_status: Database["public"]["Enums"]["application_status"]
