@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      case_studies: {
+        Row: {
+          challenge: string
+          client_company: string
+          client_industry: string | null
+          client_name: string
+          created_at: string
+          id: string
+          image_url: string | null
+          metrics: Json
+          outcome: string
+          published_date: string
+          service_id: string
+          solution: string
+          title: string
+        }
+        Insert: {
+          challenge: string
+          client_company: string
+          client_industry?: string | null
+          client_name: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          metrics?: Json
+          outcome: string
+          published_date?: string
+          service_id: string
+          solution: string
+          title: string
+        }
+        Update: {
+          challenge?: string
+          client_company?: string
+          client_industry?: string | null
+          client_name?: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          metrics?: Json
+          outcome?: string
+          published_date?: string
+          service_id?: string
+          solution?: string
+          title?: string
+        }
+        Relationships: []
+      }
       contact_inquiries: {
         Row: {
           company: string | null
