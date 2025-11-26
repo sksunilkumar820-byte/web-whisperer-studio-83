@@ -208,11 +208,23 @@ interface Testimonial {
   rating: number;
 }
 
+interface CaseStudy {
+  id: string;
+  service_id: string;
+  title: string;
+  client_company: string;
+  client_industry: string;
+  challenge: string;
+  metrics: Array<{ label: string; value: string }>;
+}
+
 const ServicePage = () => {
   const { serviceId } = useParams();
   const navigate = useNavigate();
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [caseStudies, setCaseStudies] = useState<CaseStudy[]>([]);
   const [loadingTestimonials, setLoadingTestimonials] = useState(true);
+  const [loadingCaseStudies, setLoadingCaseStudies] = useState(true);
   
   const service = serviceId ? serviceData[serviceId as keyof typeof serviceData] : null;
 
@@ -233,7 +245,29 @@ const ServicePage = () => {
       setLoadingTestimonials(false);
     };
 
+    const fetchCaseStudies = async () => {
+      if (!serviceId) return;
+      
+      setLoadingCaseStudies(true);
+      const { data, error } = await supabase
+        .from('case_studies')
+        .select('*')
+        .eq('service_id', serviceId)
+        .order('published_date', { ascending: false })
+        .limit(2);
+
+      if (!error && data) {
+        const parsedData = data.map(study => ({
+          ...study,
+          metrics: (Array.isArray(study.metrics) ? study.metrics : []) as Array<{ label: string; value: string }>
+        }));
+        setCaseStudies(parsedData);
+      }
+      setLoadingCaseStudies(false);
+    };
+
     fetchTestimonials();
+    fetchCaseStudies();
   }, [serviceId]);
 
   if (!service) {
@@ -369,6 +403,65 @@ const ServicePage = () => {
           </div>
         </div>
       </section>
+
+      {/* Case Studies Section */}
+      {caseStudies.length > 0 && (
+        <section className="py-16 bg-background">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto">
+              <div className="flex justify-between items-center mb-8">
+                <h2 className="text-3xl font-bold text-foreground">
+                  Success Stories
+                </h2>
+                <Button 
+                  variant="ghost" 
+                  onClick={() => navigate("/case-studies")}
+                  className="text-primary hover:text-primary/80"
+                >
+                  View All Case Studies
+                  <ArrowLeft className="w-4 h-4 ml-2 rotate-180" />
+                </Button>
+              </div>
+              <div className="space-y-8">
+                {caseStudies.map((study) => (
+                  <Card key={study.id} className="card-elite">
+                    <CardContent className="p-6">
+                      <div className="mb-4">
+                        <h3 className="text-2xl font-bold text-foreground mb-2">
+                          {study.title}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          {study.client_company} • {study.client_industry}
+                        </p>
+                      </div>
+                      
+                      <p className="text-muted-foreground mb-6">
+                        {study.challenge}
+                      </p>
+
+                      {/* Metrics */}
+                      {study.metrics && study.metrics.length > 0 && (
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                          {study.metrics.map((metric, idx) => (
+                            <div key={idx} className="bg-muted/50 p-4 rounded-lg text-center">
+                              <div className="text-2xl font-bold text-primary mb-1">
+                                {metric.value}
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                {metric.label}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Testimonials Section */}
       {testimonials.length > 0 && (

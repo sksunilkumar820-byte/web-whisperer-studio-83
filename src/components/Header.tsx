@@ -20,6 +20,10 @@ const Header = () => {
             Industries
             <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
           </a>
+          <a href="/case-studies" className="text-muted-foreground hover:text-primary transition-smooth font-medium relative group">
+            Case Studies
+            <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
+          </a>
           <a href="/#about" className="text-muted-foreground hover:text-primary transition-smooth font-medium relative group">
             About
             <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary transform scale-x-0 transition-transform group-hover:scale-x-100"></span>
