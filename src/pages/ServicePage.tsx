@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowLeft, Star } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,8 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
+import { supabase } from "@/integrations/supabase/client";
+import { Card, CardContent } from "@/components/ui/card";
 
 const serviceData = {
   "executive-search": {
@@ -196,11 +199,42 @@ const serviceData = {
   }
 };
 
+interface Testimonial {
+  id: string;
+  client_name: string;
+  client_position: string;
+  client_company: string;
+  testimonial_text: string;
+  rating: number;
+}
+
 const ServicePage = () => {
   const { serviceId } = useParams();
   const navigate = useNavigate();
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [loadingTestimonials, setLoadingTestimonials] = useState(true);
   
   const service = serviceId ? serviceData[serviceId as keyof typeof serviceData] : null;
+
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      if (!serviceId) return;
+      
+      setLoadingTestimonials(true);
+      const { data, error } = await supabase
+        .from('service_testimonials')
+        .select('*')
+        .eq('service_id', serviceId)
+        .order('created_at', { ascending: false });
+
+      if (!error && data) {
+        setTestimonials(data);
+      }
+      setLoadingTestimonials(false);
+    };
+
+    fetchTestimonials();
+  }, [serviceId]);
 
   if (!service) {
     return (
@@ -335,6 +369,43 @@ const ServicePage = () => {
           </div>
         </div>
       </section>
+
+      {/* Testimonials Section */}
+      {testimonials.length > 0 && (
+        <section className="py-16 bg-background">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl font-bold text-foreground mb-8 text-center">
+                Client Success Stories
+              </h2>
+              <div className="grid gap-6">
+                {testimonials.map((testimonial) => (
+                  <Card key={testimonial.id} className="card-elite">
+                    <CardContent className="p-6">
+                      <div className="flex gap-1 mb-4">
+                        {[...Array(testimonial.rating)].map((_, i) => (
+                          <Star key={i} className="w-5 h-5 fill-primary text-primary" />
+                        ))}
+                      </div>
+                      <p className="text-muted-foreground mb-4 italic">
+                        "{testimonial.testimonial_text}"
+                      </p>
+                      <div className="border-t border-border pt-4">
+                        <p className="font-semibold text-foreground">
+                          {testimonial.client_name}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {testimonial.client_position} at {testimonial.client_company}
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* CTA Section */}
       <section className="py-16 gradient-section">
