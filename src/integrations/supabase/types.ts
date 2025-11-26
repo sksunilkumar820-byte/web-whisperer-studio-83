@@ -211,6 +211,39 @@ export type Database = {
         }
         Relationships: []
       }
+      service_testimonials: {
+        Row: {
+          client_company: string
+          client_name: string
+          client_position: string
+          created_at: string
+          id: string
+          rating: number | null
+          service_id: string
+          testimonial_text: string
+        }
+        Insert: {
+          client_company: string
+          client_name: string
+          client_position: string
+          created_at?: string
+          id?: string
+          rating?: number | null
+          service_id: string
+          testimonial_text: string
+        }
+        Update: {
+          client_company?: string
+          client_name?: string
+          client_position?: string
+          created_at?: string
+          id?: string
+          rating?: number | null
+          service_id?: string
+          testimonial_text?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
