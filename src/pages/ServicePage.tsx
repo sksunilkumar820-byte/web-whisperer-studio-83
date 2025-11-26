@@ -4,6 +4,14 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Users, Search, TrendingUp, Target, Building, Globe, Megaphone, UserCheck, Calculator } from "lucide-react";
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+  BreadcrumbPage,
+} from "@/components/ui/breadcrumb";
 
 const serviceData = {
   "executive-search": {
@@ -218,14 +226,31 @@ const ServicePage = () => {
       {/* Hero Section */}
       <section className="gradient-section py-20">
         <div className="container mx-auto px-6">
-          <Button
-            variant="ghost"
-            onClick={() => navigate("/")}
-            className="mb-8 text-muted-foreground hover:text-foreground"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
-          </Button>
+          <Breadcrumb className="mb-8">
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink
+                  onClick={() => navigate("/")}
+                  className="cursor-pointer"
+                >
+                  Home
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink
+                  onClick={() => navigate("/#services")}
+                  className="cursor-pointer"
+                >
+                  Services
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>{service.title}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
           
           <div className="flex items-start gap-6 mb-8">
             <div className="w-20 h-20 gradient-primary rounded-2xl flex items-center justify-center shadow-glow">
