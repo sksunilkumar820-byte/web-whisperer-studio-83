@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowRight } from "lucide-react";
+import SocialShare from "@/components/SocialShare";
 
 interface CaseStudy {
   id: string;
@@ -166,7 +167,7 @@ const CaseStudiesPage = () => {
 
                     <Button
                       variant="ghost"
-                      className="w-full justify-between group"
+                      className="w-full justify-between group mb-4"
                       onClick={() => {
                         // Create a modal or detail view - for now navigate to service page
                         navigate(`/services/${study.service_id}`);
@@ -175,6 +176,11 @@ const CaseStudiesPage = () => {
                       View Full Case Study
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Button>
+
+                    <SocialShare
+                      title={study.title}
+                      description={`${study.client_company}: ${study.challenge.substring(0, 100)}...`}
+                    />
                   </CardContent>
                 </Card>
               ))}
