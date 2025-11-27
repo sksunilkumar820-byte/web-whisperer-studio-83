@@ -1,6 +1,9 @@
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Header = () => {
+  const { isAdmin } = useAuth();
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl border-b border-border/30 shadow-soft transition-smooth">
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
@@ -38,11 +41,20 @@ const Header = () => {
           </a>
         </nav>
 
-        <a href="/careers">
-          <Button className="btn-accent px-6 py-2 font-semibold text-sm">
-            Join Our Team
-          </Button>
-        </a>
+        <div className="flex items-center gap-3">
+          {isAdmin && (
+            <a href="/admin">
+              <Button variant="outline" className="px-4 py-2 text-sm">
+                Admin
+              </Button>
+            </a>
+          )}
+          <a href="/careers">
+            <Button className="btn-accent px-6 py-2 font-semibold text-sm">
+              Join Our Team
+            </Button>
+          </a>
+        </div>
       </div>
     </header>
   );
