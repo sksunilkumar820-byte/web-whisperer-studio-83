@@ -12,7 +12,7 @@ interface GoogleAnalyticsProps {
   measurementId?: string;
 }
 
-const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || '';
+const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || 'G-H1WN4W47T8';
 
 const GoogleAnalytics = ({ measurementId = GA_MEASUREMENT_ID }: GoogleAnalyticsProps) => {
   const location = useLocation();
