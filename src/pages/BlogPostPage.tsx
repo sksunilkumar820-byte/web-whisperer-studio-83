@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
+import DOMPurify from 'dompurify';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SEO from '@/components/SEO';
@@ -177,7 +178,7 @@ const BlogPostPage = () => {
             </div>
           )}
 
-          {/* Content */}
+          {/* Content - Sanitized to prevent XSS attacks */}
           <div
             className="prose prose-lg max-w-none dark:prose-invert
               prose-headings:text-foreground prose-headings:font-bold
@@ -187,7 +188,13 @@ const BlogPostPage = () => {
               prose-ul:text-muted-foreground prose-ol:text-muted-foreground
               prose-blockquote:border-l-primary prose-blockquote:text-muted-foreground
               prose-code:text-primary prose-code:bg-muted prose-code:px-1 prose-code:rounded"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ 
+              __html: DOMPurify.sanitize(post.content, {
+                ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'img', 'blockquote', 'code', 'pre', 'span', 'div'],
+                ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'class', 'target', 'rel'],
+                ALLOW_DATA_ATTR: false
+              })
+            }}
           />
 
           {/* Share Section */}
