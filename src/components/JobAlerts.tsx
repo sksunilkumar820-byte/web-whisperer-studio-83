@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { z } from "zod";
 import {
   Select,
   SelectContent,
@@ -20,6 +21,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+const jobAlertSchema = z.object({
+  email: z.string().trim().email({ message: "Please enter a valid email address" }).max(255, { message: "Email must be less than 255 characters" }),
+  department: z.string().max(100).optional().nullable(),
+  location: z.string().max(100).optional().nullable(),
+  jobType: z.string().max(50).optional().nullable(),
+  keywords: z.string().max(500, { message: "Keywords must be less than 500 characters" }).optional().nullable(),
+});
+
 const JobAlerts = () => {
   const [email, setEmail] = useState("");
   const [department, setDepartment] = useState<string>("");
@@ -32,10 +41,18 @@ const JobAlerts = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    const validation = jobAlertSchema.safeParse({
+      email,
+      department: department || null,
+      location: location || null,
+      jobType: jobType || null,
+      keywords: keywords || null,
+    });
+
+    if (!validation.success) {
       toast({
-        title: "Invalid email",
-        description: "Please enter a valid email address.",
+        title: "Validation Error",
+        description: validation.error.errors[0].message,
         variant: "destructive",
       });
       return;
@@ -46,11 +63,11 @@ const JobAlerts = () => {
     try {
       const { error } = await supabase.from("job_alerts").insert([
         {
-          email,
-          department: department || null,
-          location: location || null,
-          job_type: jobType || null,
-          keywords: keywords || null,
+          email: validation.data.email,
+          department: validation.data.department,
+          location: validation.data.location,
+          job_type: validation.data.jobType,
+          keywords: validation.data.keywords,
         },
       ]);
 
