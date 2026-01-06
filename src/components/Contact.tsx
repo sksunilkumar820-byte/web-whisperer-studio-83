@@ -4,6 +4,7 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
+import { checkRateLimit } from "@/lib/rateLimit";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
@@ -45,6 +46,18 @@ const Contact = () => {
         company: formData.company || undefined,
         message: formData.message,
       });
+
+      // Check rate limit
+      const rateLimitResult = await checkRateLimit("contact", validatedData.email);
+      if (!rateLimitResult.allowed) {
+        toast({
+          title: "Too many submissions",
+          description: rateLimitResult.message,
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
 
       // Insert into database
       const { error } = await supabase
