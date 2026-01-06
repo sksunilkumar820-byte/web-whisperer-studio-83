@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
+import { checkRateLimit } from "@/lib/rateLimit";
 import {
   Select,
   SelectContent,
@@ -61,6 +62,18 @@ const JobAlerts = () => {
     setIsLoading(true);
 
     try {
+      // Check rate limit
+      const rateLimitResult = await checkRateLimit("job_alert", validation.data.email);
+      if (!rateLimitResult.allowed) {
+        toast({
+          title: "Too many submissions",
+          description: rateLimitResult.message,
+          variant: "destructive",
+        });
+        setIsLoading(false);
+        return;
+      }
+
       const { error } = await supabase.from("job_alerts").insert([
         {
           email: validation.data.email,

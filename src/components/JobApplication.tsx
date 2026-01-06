@@ -8,6 +8,7 @@ import { ArrowLeft, MapPin, Briefcase, DollarSign } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
+import { checkRateLimit } from "@/lib/rateLimit";
 
 interface JobListing {
   id: string;
@@ -75,6 +76,18 @@ const JobApplication = ({ job, onBack }: JobApplicationProps) => {
       };
 
       const validatedData = applicationSchema.parse(dataToValidate);
+
+      // Check rate limit
+      const rateLimitResult = await checkRateLimit("job_application", validatedData.email);
+      if (!rateLimitResult.allowed) {
+        toast({
+          title: "Too many submissions",
+          description: rateLimitResult.message,
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
 
       const { error } = await supabase.from("job_applications").insert([
         {

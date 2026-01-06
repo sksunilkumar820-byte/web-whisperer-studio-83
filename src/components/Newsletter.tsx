@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
+import { checkRateLimit } from "@/lib/rateLimit";
 
 const newsletterSchema = z.object({
   email: z.string().trim().email({ message: "Please enter a valid email address" }).max(255, { message: "Email must be less than 255 characters" }),
@@ -31,6 +32,18 @@ const Newsletter = () => {
     setIsLoading(true);
 
     try {
+      // Check rate limit
+      const rateLimitResult = await checkRateLimit("newsletter", validation.data.email);
+      if (!rateLimitResult.allowed) {
+        toast({
+          title: "Too many submissions",
+          description: rateLimitResult.message,
+          variant: "destructive",
+        });
+        setIsLoading(false);
+        return;
+      }
+
       const { error } = await supabase
         .from("newsletter_subscribers")
         .insert([{ email: validation.data.email }]);
