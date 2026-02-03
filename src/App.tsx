@@ -14,6 +14,8 @@ import CaseStudiesPage from "./pages/CaseStudiesPage";
 import BlogListPage from "./pages/BlogPage";
 import BlogPostPage from "./pages/BlogPostPage";
 import AuthPage from "./pages/AuthPage";
+import PrivacyPage from "./pages/PrivacyPage";
+import TermsPage from "./pages/TermsPage";
 import AdminLayout from "./pages/admin/AdminLayout";
 import DashboardPage from "./pages/admin/DashboardPage";
 import ApplicationsPage from "./pages/admin/ApplicationsPage";
@@ -42,7 +44,8 @@ const App = () => (
               <Route path="/blog" element={<BlogListPage />} />
               <Route path="/blog/:slug" element={<BlogPostPage />} />
               <Route path="/auth" element={<AuthPage />} />
-              
+              <Route path="/privacy" element={<PrivacyPage />} />
+              <Route path="/terms" element={<TermsPage />} />
               {/* Admin Routes */}
               <Route
                 path="/admin"
