@@ -123,9 +123,11 @@ const Services = () => {
             <p className="text-muted-foreground mb-6">
               Let our experts help you find the perfect staffing solution for your organization.
             </p>
-            <Button className="btn-primary px-8 py-3 font-semibold">
-              Schedule Consultation
-            </Button>
+            <a href="/#contact">
+              <Button className="btn-primary px-8 py-3 font-semibold">
+                Schedule Consultation
+              </Button>
+            </a>
           </div>
         </div>
       </div>
