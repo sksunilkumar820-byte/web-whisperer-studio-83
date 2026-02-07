@@ -3,6 +3,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import logoImage from "@/assets/logo-workwhirl.png";
 
 const Header = () => {
   const { isAdmin } = useAuth();
@@ -20,11 +21,13 @@ const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl border-b border-border/30 shadow-soft transition-smooth">
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-        <Link to="/" className="flex items-center space-x-3">
-          <div className="w-10 h-10 gradient-primary rounded-xl flex items-center justify-center shadow-soft">
-            <span className="text-primary-foreground font-bold text-xl">W</span>
-          </div>
-          <span className="text-2xl font-bold text-foreground tracking-tight">Workwhirl</span>
+        <Link to="/" className="flex items-center space-x-3 group">
+          <img 
+            src={logoImage} 
+            alt="Workwhirl Logo" 
+            className="h-10 w-auto transition-transform group-hover:scale-105"
+          />
+          <span className="text-2xl font-extrabold text-foreground tracking-tight">Workwhirl</span>
         </Link>
         
         {/* Desktop Navigation */}

@@ -183,15 +183,42 @@
     transition: var(--transition-quick);
   }
 
-  /* Professional Typography */
+  /* Bold Professional Typography */
   .text-elite {
-    font-weight: 600;
-    letter-spacing: -0.025em;
+    font-weight: 700;
+    letter-spacing: -0.03em;
   }
 
   .text-luxury {
-    font-weight: 300;
+    font-weight: 400;
     letter-spacing: 0.01em;
+  }
+
+  /* Enhanced Heading Styles */
+  h1, .heading-xl {
+    @apply font-extrabold tracking-tight;
+    letter-spacing: -0.04em;
+  }
+
+  h2, .heading-lg {
+    @apply font-bold tracking-tight;
+    letter-spacing: -0.03em;
+  }
+
+  h3, .heading-md {
+    @apply font-bold;
+    letter-spacing: -0.02em;
+  }
+
+  h4, .heading-sm {
+    @apply font-semibold;
+    letter-spacing: -0.01em;
+  }
+
+  /* Bold Button Typography */
+  .btn-primary, .btn-accent {
+    @apply font-bold uppercase tracking-wide;
+    font-size: 0.875rem;
   }
 
   /* Custom Components */
