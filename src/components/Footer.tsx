@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import logoImage from "@/assets/logo-workwhirl.png";
 
 const Footer = () => {
   return (
@@ -8,10 +9,12 @@ const Footer = () => {
           {/* Company Info */}
           <div className="space-y-8">
             <Link to="/" className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-gold">
-                <span className="text-primary font-bold text-2xl text-elite">W</span>
-              </div>
-              <span className="text-3xl font-bold text-elite">Workwhirl</span>
+              <img 
+                src={logoImage} 
+                alt="Workwhirl Logo" 
+                className="h-12 w-auto brightness-0 invert"
+              />
+              <span className="text-3xl font-extrabold tracking-tight">Workwhirl</span>
             </Link>
             <p className="text-primary-foreground/90 leading-relaxed text-xl text-luxury">
               Elevating businesses through strategic excellence and transformational consulting solutions.

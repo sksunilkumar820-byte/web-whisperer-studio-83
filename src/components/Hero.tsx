@@ -28,14 +28,14 @@ const Hero = () => {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6 text-center text-white">
         <div className="animate-fade-in max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-8 leading-[0.9] tracking-tighter">
             Transform Your 
             <span className="block bg-gradient-to-r from-accent to-accent-light bg-clip-text text-transparent">
               Workforce Strategy
             </span>
           </h1>
           
-          <p className="text-xl md:text-2xl mb-12 text-white/90 leading-relaxed font-light">
+          <p className="text-xl md:text-2xl mb-12 text-white/90 leading-relaxed font-normal max-w-3xl mx-auto">
             Partner with industry leaders in strategic staffing, executive search, 
             and comprehensive talent solutions that drive sustainable business growth.
           </p>
@@ -43,14 +43,14 @@ const Hero = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
             <Button 
               onClick={scrollToServices}
-              className="btn-primary text-lg px-8 py-4 font-semibold hover:scale-105 transition-smooth"
+              className="btn-primary text-base px-10 py-5 font-bold uppercase tracking-wider hover:scale-105 transition-smooth shadow-elegant"
             >
               Discover Our Solutions
             </Button>
             <Button 
               onClick={scrollToContact}
               variant="outline" 
-              className="border-2 border-white/50 hover:bg-white/20 backdrop-blur-sm text-lg px-8 py-4 transition-smooth hover:scale-105 text-slate-950"
+              className="border-2 border-white/60 hover:bg-white/20 backdrop-blur-sm text-base px-10 py-5 transition-smooth hover:scale-105 text-white font-bold uppercase tracking-wider"
             >
               Schedule Consultation
             </Button>
