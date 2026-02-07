@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import logoImage from "@/assets/logo-workwhirl.png";
 
 const Footer = () => {
   return (
@@ -9,11 +8,9 @@ const Footer = () => {
           {/* Company Info */}
           <div className="space-y-8">
             <Link to="/" className="flex items-center space-x-4">
-              <img 
-                src={logoImage} 
-                alt="Workwhirl Logo" 
-                className="h-12 w-auto brightness-0 invert"
-              />
+              <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-elegant">
+                <span className="text-primary font-extrabold text-2xl">W</span>
+              </div>
               <span className="text-3xl font-extrabold tracking-tight">Workwhirl</span>
             </Link>
             <p className="text-primary-foreground/90 leading-relaxed text-xl text-luxury">
