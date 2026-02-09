@@ -49,8 +49,7 @@ const Hero = () => {
             </Button>
             <Button 
               onClick={scrollToContact}
-              variant="outline" 
-              className="border-2 border-white/60 hover:bg-white/20 backdrop-blur-sm text-base px-10 py-5 transition-smooth hover:scale-105 text-white font-bold uppercase tracking-wider"
+              className="btn-primary text-base px-10 py-5 font-bold uppercase tracking-wider hover:scale-105 transition-smooth shadow-elegant"
             >
               Schedule Consultation
             </Button>
