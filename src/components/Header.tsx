@@ -22,8 +22,9 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl border-b border-border/30 shadow-soft transition-smooth">
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-3 group">
-          <div className="w-11 h-11 gradient-primary rounded-xl flex items-center justify-center shadow-elegant group-hover:shadow-hover transition-smooth group-hover:scale-105">
+          <div className="relative w-11 h-11 gradient-primary rounded-xl flex items-center justify-center shadow-elegant group-hover:shadow-hover transition-smooth group-hover:scale-105 group-hover:animate-[logo-glow_1.5s_ease-in-out_infinite]">
             <span className="text-primary-foreground font-extrabold text-2xl tracking-tight">W</span>
+            <div className="absolute inset-0 rounded-xl bg-primary/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 scale-125"></div>
           </div>
           <span className="text-2xl font-extrabold text-foreground tracking-tight">Workwhirl</span>
         </Link>
