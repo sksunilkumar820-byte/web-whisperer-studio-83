@@ -118,6 +118,14 @@ export default {
 						opacity: '1',
 						transform: 'scale(1)'
 					}
+				},
+				'logo-glow': {
+					'0%, 100%': {
+						boxShadow: '0 0 15px hsl(216 100% 50% / 0.3)'
+					},
+					'50%': {
+						boxShadow: '0 0 25px hsl(216 100% 50% / 0.5)'
+					}
 				}
 			},
 			animation: {
