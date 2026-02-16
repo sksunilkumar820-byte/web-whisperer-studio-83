@@ -222,8 +222,10 @@ const Contact = () => {
                   <p className="text-sm text-muted-foreground">Ready to discuss your needs</p>
                 </div>
               </div>
-              <p className="text-lg font-semibold text-primary">+918006996317
-+91798224448</p>
+              <p className="text-lg font-semibold text-primary">
+                <a href="tel:+918006996317" className="hover:underline">+91 8006996317</a><br />
+                <a href="tel:+91798224448" className="hover:underline">+91 798224448</a>
+              </p>
             </div>
 
             <div className="card-elite p-6">

@@ -49,7 +49,8 @@ const Hero = () => {
             </Button>
             <Button 
               onClick={scrollToContact}
-              className="btn-primary text-base px-10 py-5 font-bold uppercase tracking-wider hover:scale-105 transition-smooth shadow-elegant"
+              variant="outline"
+              className="text-base px-10 py-5 font-bold uppercase tracking-wider hover:scale-105 transition-smooth border-2 border-white/40 text-white bg-white/10 hover:bg-white/20 hover:text-white backdrop-blur-sm"
             >
               Schedule Consultation
             </Button>
@@ -63,7 +64,7 @@ const Hero = () => {
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-accent rounded-full"></div>
-              <span>95% Client Satisfaction</span>
+              <span>92% Client Satisfaction</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-accent rounded-full"></div>
