@@ -79,7 +79,7 @@ const Footer = () => {
 
         <div className="border-t border-primary-foreground/20 mt-16 pt-12 flex flex-col md:flex-row justify-between items-center">
           <p className="text-primary-foreground/70 text-lg text-luxury">
-            © 2024 Workwhirl Elite Consulting. All rights reserved.
+            © {new Date().getFullYear()} Workwhirl Elite Consulting. All rights reserved.
           </p>
           <div className="flex space-x-10 mt-6 md:mt-0">
             <Link to="/privacy" className="text-primary-foreground/70 hover:text-accent transition-smooth text-lg text-luxury">Privacy Policy</Link>

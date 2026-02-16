@@ -10,8 +10,8 @@ const About = () => {
             </h2>
             
             <p className="text-lg text-muted-foreground leading-relaxed mb-10">
-              With over two decades of industry leadership, Workwhirl has established itself 
-              as the premier partner for organizations seeking transformative staffing solutions. 
+              Since our inception, Workwhirl has rapidly established itself 
+              as a trusted partner for organizations seeking transformative staffing solutions. 
               Our commitment to excellence drives every client partnership.
             </p>
 

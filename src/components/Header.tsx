@@ -14,6 +14,7 @@ const Header = () => {
     { label: "Industries", href: "/#industries" },
     { label: "Case Studies", href: "/case-studies", isRoute: true },
     { label: "About", href: "/#about" },
+    { label: "Blog", href: "/blog", isRoute: true },
     { label: "Careers", href: "/careers", isRoute: true },
     { label: "Contact", href: "/#contact" },
   ];
@@ -30,7 +31,7 @@ const Header = () => {
         </Link>
         
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center space-x-8">
+        <nav className="hidden lg:flex items-center space-x-6">
           {navItems.map((item) => (
             item.isRoute ? (
               <Link 
