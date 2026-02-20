@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 
-export type FormType = "contact" | "newsletter" | "job_alert" | "job_application";
+export type FormType = "contact" | "newsletter" | "job_alert" | "job_application" | "drop_cv";
 
 interface RateLimitResponse {
   allowed: boolean;

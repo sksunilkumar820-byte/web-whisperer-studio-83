@@ -3,19 +3,6 @@ import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-consulting.jpg";
 
 const Hero = () => {
-  const scrollToContact = () => {
-    const contactSection = document.getElementById("contact");
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const scrollToServices = () => {
-    const servicesSection = document.getElementById("services");
-    if (servicesSection) {
-      servicesSection.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -45,14 +32,14 @@ const Hero = () => {
               asChild
               className="btn-primary text-base px-10 py-5 font-bold uppercase tracking-wider hover:scale-105 transition-smooth shadow-elegant"
             >
-              <Link to="/careers">Drop Your CV</Link>
+              <Link to="/careers#drop-cv">Drop Your CV</Link>
             </Button>
             <Button 
               asChild
               variant="outline"
               className="text-base px-10 py-5 font-bold uppercase tracking-wider hover:scale-105 transition-smooth border-2 border-white/40 text-white bg-white/10 hover:bg-white/20 hover:text-white backdrop-blur-sm"
             >
-              <Link to="/careers">Find Open Positions</Link>
+              <Link to="/careers#job-listings">Find Open Positions</Link>
             </Button>
           </div>
 
