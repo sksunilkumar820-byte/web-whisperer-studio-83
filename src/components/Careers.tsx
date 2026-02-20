@@ -124,7 +124,7 @@ const Careers = () => {
   }
 
   return (
-    <section id="careers" className="py-20 bg-background">
+    <section id="job-listings" className="py-20 bg-background">
       <div className="container mx-auto px-6">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 text-elite">
