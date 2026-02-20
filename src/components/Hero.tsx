@@ -42,17 +42,17 @@ const Hero = () => {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
             <Button 
-              onClick={scrollToServices}
+              asChild
               className="btn-primary text-base px-10 py-5 font-bold uppercase tracking-wider hover:scale-105 transition-smooth shadow-elegant"
             >
-              Discover Our Solutions
+              <Link to="/careers">Drop Your CV</Link>
             </Button>
             <Button 
-              onClick={scrollToContact}
+              asChild
               variant="outline"
               className="text-base px-10 py-5 font-bold uppercase tracking-wider hover:scale-105 transition-smooth border-2 border-white/40 text-white bg-white/10 hover:bg-white/20 hover:text-white backdrop-blur-sm"
             >
-              Schedule Consultation
+              <Link to="/careers">Find Open Positions</Link>
             </Button>
           </div>
 
