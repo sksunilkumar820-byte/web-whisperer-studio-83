@@ -47,9 +47,11 @@ const About = () => {
               </div>
             </div>
 
-            <Button className="btn-primary px-8 py-3 font-semibold mt-8">
-              Learn More About Us
-            </Button>
+            <a href="/#contact">
+              <Button className="btn-primary px-8 py-3 font-semibold mt-8">
+                Get In Touch
+              </Button>
+            </a>
           </div>
 
           <div className="animate-slide-up">

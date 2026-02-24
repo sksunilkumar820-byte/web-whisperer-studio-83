@@ -53,11 +53,19 @@ const SEO = ({
         'https://linkedin.com/company/workwhirl',
         'https://twitter.com/workwhirl',
       ],
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'House No. 95B Second Floor, Sector 18A Dwarka',
+        addressLocality: 'New Delhi',
+        postalCode: '110078',
+        addressCountry: 'IN',
+      },
       contactPoint: {
         '@type': 'ContactPoint',
-        telephone: '+1-555-0123',
+        telephone: '+91-8006996317',
         contactType: 'customer service',
-        availableLanguage: ['English'],
+        email: 'contact@workwhirl.com',
+        availableLanguage: ['English', 'Hindi'],
       },
     }),
   };
