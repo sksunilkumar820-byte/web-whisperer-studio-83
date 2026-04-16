@@ -74,7 +74,7 @@ const CaseStudiesPage = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="gradient-section py-20">
+      <section className="gradient-section pt-32 pb-16">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">

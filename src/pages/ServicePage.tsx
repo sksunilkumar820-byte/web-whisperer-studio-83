@@ -292,7 +292,7 @@ const ServicePage = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="gradient-section py-20">
+      <section className="gradient-section pt-32 pb-16">
         <div className="container mx-auto px-6">
           <Breadcrumb className="mb-8">
             <BreadcrumbList>

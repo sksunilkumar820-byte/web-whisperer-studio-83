@@ -18,7 +18,7 @@ const CareersPage = () => {
   }, [hash]);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pt-20">
       <Header />
       <DropCV />
       <Careers />
