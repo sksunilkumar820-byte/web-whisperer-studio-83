@@ -46,16 +46,19 @@ const parseRow = (i: Inquiry): Row => {
   };
 };
 
-const BATCH_SIZE = 5;
+const DEFAULT_BATCH_SIZE = 5;
+const MIN_BATCH = 1;
+const MAX_BATCH = 20;
 
 const CVSubmissionsDebugPage = () => {
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [verifyProgress, setVerifyProgress] = useState({ done: 0, total: 0 });
+  const [batchSize, setBatchSize] = useState<number>(DEFAULT_BATCH_SIZE);
   const { toast } = useToast();
 
-  const verifyInBatches = async (parsed: Row[]) => {
+  const verifyInBatches = async (parsed: Row[], size: number) => {
     const toCheck = parsed.filter((r) => r.filePath);
     setVerifyProgress({ done: 0, total: toCheck.length });
     if (toCheck.length === 0) return;
