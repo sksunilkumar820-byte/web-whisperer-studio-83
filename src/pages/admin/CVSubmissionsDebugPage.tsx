@@ -8,6 +8,8 @@ import { Progress } from "@/components/ui/progress";
 import { Loader2, RefreshCw, Download, FileX, FileCheck, Mail } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
+import { Slider } from "@/components/ui/slider";
+import { Label } from "@/components/ui/label";
 
 type Inquiry = {
   id: string;
@@ -44,16 +46,19 @@ const parseRow = (i: Inquiry): Row => {
   };
 };
 
-const BATCH_SIZE = 5;
+const DEFAULT_BATCH_SIZE = 5;
+const MIN_BATCH = 1;
+const MAX_BATCH = 20;
 
 const CVSubmissionsDebugPage = () => {
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [verifyProgress, setVerifyProgress] = useState({ done: 0, total: 0 });
+  const [batchSize, setBatchSize] = useState<number>(DEFAULT_BATCH_SIZE);
   const { toast } = useToast();
 
-  const verifyInBatches = async (parsed: Row[]) => {
+  const verifyInBatches = async (parsed: Row[], size: number) => {
     const toCheck = parsed.filter((r) => r.filePath);
     setVerifyProgress({ done: 0, total: toCheck.length });
     if (toCheck.length === 0) return;
@@ -61,8 +66,9 @@ const CVSubmissionsDebugPage = () => {
     const statusByPath = new Map<string, "ok" | "missing">();
     let done = 0;
 
-    for (let i = 0; i < toCheck.length; i += BATCH_SIZE) {
-      const batch = toCheck.slice(i, i + BATCH_SIZE);
+    const safeSize = Math.max(MIN_BATCH, Math.min(MAX_BATCH, size));
+    for (let i = 0; i < toCheck.length; i += safeSize) {
+      const batch = toCheck.slice(i, i + safeSize);
       const results = await Promise.all(
         batch.map(async (r) => {
           const { data: signed, error: sErr } = await supabase.storage
@@ -107,7 +113,7 @@ const CVSubmissionsDebugPage = () => {
     setRows(parsed);
     setLoading(false);
 
-    await verifyInBatches(parsed);
+    await verifyInBatches(parsed, batchSize);
     setRefreshing(false);
   };
 
@@ -142,10 +148,32 @@ const CVSubmissionsDebugPage = () => {
             End-to-end verification: form → database → storage. Showing latest 50 inquiries.
           </p>
         </div>
-        <Button onClick={load} disabled={refreshing} variant="outline">
-          <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? "animate-spin" : ""}`} />
-          Refresh
-        </Button>
+        <div className="flex items-end gap-4 flex-wrap">
+          <div className="w-56 space-y-2">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="batch-size" className="text-xs text-muted-foreground">
+                Verification batch size
+              </Label>
+              <span className="text-xs font-medium tabular-nums">{batchSize}</span>
+            </div>
+            <Slider
+              id="batch-size"
+              min={MIN_BATCH}
+              max={MAX_BATCH}
+              step={1}
+              value={[batchSize]}
+              onValueChange={(v) => setBatchSize(v[0] ?? DEFAULT_BATCH_SIZE)}
+              disabled={refreshing}
+            />
+            <p className="text-[10px] text-muted-foreground">
+              Applied on next refresh ({MIN_BATCH}–{MAX_BATCH}).
+            </p>
+          </div>
+          <Button onClick={load} disabled={refreshing} variant="outline">
+            <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? "animate-spin" : ""}`} />
+            Refresh
+          </Button>
+        </div>
       </div>
 
       {verifying && (
