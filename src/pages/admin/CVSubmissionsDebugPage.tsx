@@ -67,6 +67,35 @@ const readStoredBatchSize = (): number => {
   return DEFAULT_BATCH_SIZE;
 };
 
+const VERIFY_CACHE_KEY = "cv-debug:verify-cache";
+const VERIFY_TTL_MS = 10 * 60 * 1000; // 10 minutes
+
+type CachedStatus = { status: "ok" | "missing"; ts: number };
+type VerifyCache = Record<string, CachedStatus>;
+
+const readVerifyCache = (): VerifyCache => {
+  if (typeof window === "undefined") return {};
+  try {
+    const raw = window.localStorage.getItem(VERIFY_CACHE_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === "object" ? (parsed as VerifyCache) : {};
+  } catch {
+    return {};
+  }
+};
+
+const writeVerifyCache = (cache: VerifyCache) => {
+  try {
+    window.localStorage.setItem(VERIFY_CACHE_KEY, JSON.stringify(cache));
+  } catch {
+    // ignore quota / private mode
+  }
+};
+
+const isFresh = (entry: CachedStatus | undefined): entry is CachedStatus =>
+  !!entry && Date.now() - entry.ts < VERIFY_TTL_MS;
+
 const CVSubmissionsDebugPage = () => {
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
@@ -84,15 +113,39 @@ const CVSubmissionsDebugPage = () => {
   }, [batchSize]);
 
 
-  const verifyInBatches = async (parsed: Row[], size: number) => {
-    const toCheck = parsed.filter((r) => r.filePath);
+  const verifyInBatches = async (parsed: Row[], size: number, force = false) => {
+    const withFile = parsed.filter((r) => r.filePath);
+    const cache = readVerifyCache();
+
+    // Apply cached statuses immediately (so resume after refresh shows progress)
+    if (!force) {
+      const cachedHits: Record<string, "ok" | "missing"> = {};
+      withFile.forEach((r) => {
+        const entry = cache[r.filePath!];
+        if (isFresh(entry)) cachedHits[r.filePath!] = entry.status;
+      });
+      if (Object.keys(cachedHits).length) {
+        setRows((prev) =>
+          prev.map((r) =>
+            r.filePath && cachedHits[r.filePath]
+              ? { ...r, fileStatus: cachedHits[r.filePath] }
+              : r
+          )
+        );
+      }
+    }
+
+    // Determine which rows still need verification
+    const toCheck = force
+      ? withFile
+      : withFile.filter((r) => !isFresh(cache[r.filePath!]));
+
     setVerifyProgress({ done: 0, total: toCheck.length });
     if (toCheck.length === 0) return;
 
-    const statusByPath = new Map<string, "ok" | "missing">();
     let done = 0;
-
     const safeSize = Math.max(MIN_BATCH, Math.min(MAX_BATCH, size));
+
     for (let i = 0; i < toCheck.length; i += safeSize) {
       const batch = toCheck.slice(i, i + safeSize);
       const results = await Promise.all(
@@ -106,21 +159,28 @@ const CVSubmissionsDebugPage = () => {
           };
         })
       );
-      results.forEach((res) => statusByPath.set(res.path, res.status));
+
+      // Persist batch results to cache so progress resumes across refresh
+      const now = Date.now();
+      results.forEach((res) => {
+        cache[res.path] = { status: res.status, ts: now };
+      });
+      writeVerifyCache(cache);
+
+      const batchMap = new Map(results.map((r) => [r.path, r.status]));
       done += batch.length;
       setVerifyProgress({ done, total: toCheck.length });
-      // Apply progressive update so UI reflects partial results
       setRows((prev) =>
         prev.map((r) =>
-          r.filePath && statusByPath.has(r.filePath)
-            ? { ...r, fileStatus: statusByPath.get(r.filePath)! }
+          r.filePath && batchMap.has(r.filePath)
+            ? { ...r, fileStatus: batchMap.get(r.filePath)! }
             : r
         )
       );
     }
   };
 
-  const load = async () => {
+  const load = async (force = false) => {
     setRefreshing(true);
     const { data, error } = await supabase
       .from("contact_inquiries")
@@ -136,10 +196,22 @@ const CVSubmissionsDebugPage = () => {
     }
 
     const parsed = (data ?? []).map(parseRow);
-    setRows(parsed);
+
+    // Hydrate from cache before painting so resume is visible immediately
+    const cache = readVerifyCache();
+    const hydrated = parsed.map((r) => {
+      if (!r.filePath) return r;
+      const entry = cache[r.filePath];
+      if (!force && isFresh(entry)) {
+        return { ...r, fileStatus: entry.status };
+      }
+      return r;
+    });
+
+    setRows(hydrated);
     setLoading(false);
 
-    await verifyInBatches(parsed, batchSize);
+    await verifyInBatches(hydrated, batchSize, force);
     setRefreshing(false);
   };
 
@@ -195,9 +267,17 @@ const CVSubmissionsDebugPage = () => {
               Applied on next refresh ({MIN_BATCH}–{MAX_BATCH}).
             </p>
           </div>
-          <Button onClick={load} disabled={refreshing} variant="outline">
+          <Button onClick={() => load(false)} disabled={refreshing} variant="outline">
             <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? "animate-spin" : ""}`} />
             Refresh
+          </Button>
+          <Button
+            onClick={() => load(true)}
+            disabled={refreshing}
+            variant="ghost"
+            title="Ignore cache and re-verify all files"
+          >
+            Force re-verify
           </Button>
         </div>
       </div>
