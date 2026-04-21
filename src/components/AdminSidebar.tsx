@@ -1,4 +1,4 @@
-import { LayoutDashboard, Briefcase, Mail, FileText, Star, BookOpen, LogOut } from 'lucide-react';
+import { LayoutDashboard, Briefcase, Mail, FileText, Star, BookOpen, LogOut, Bug } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { useAuth } from '@/contexts/AuthContext';
 import {
@@ -21,6 +21,7 @@ const menuItems = [
   { title: 'Case Studies', url: '/admin/case-studies', icon: FileText },
   { title: 'Testimonials', url: '/admin/testimonials', icon: Star },
   { title: 'Blog Posts', url: '/admin/blog', icon: BookOpen },
+  { title: 'CV Submissions Debug', url: '/admin/cv-debug', icon: Bug },
 ];
 
 export function AdminSidebar() {
