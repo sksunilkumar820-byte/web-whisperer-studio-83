@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Progress } from "@/components/ui/progress";
 import { Loader2, RefreshCw, Download, FileX, FileCheck, Mail } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
@@ -43,11 +44,49 @@ const parseRow = (i: Inquiry): Row => {
   };
 };
 
+const BATCH_SIZE = 5;
+
 const CVSubmissionsDebugPage = () => {
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [verifyProgress, setVerifyProgress] = useState({ done: 0, total: 0 });
   const { toast } = useToast();
+
+  const verifyInBatches = async (parsed: Row[]) => {
+    const toCheck = parsed.filter((r) => r.filePath);
+    setVerifyProgress({ done: 0, total: toCheck.length });
+    if (toCheck.length === 0) return;
+
+    const statusByPath = new Map<string, "ok" | "missing">();
+    let done = 0;
+
+    for (let i = 0; i < toCheck.length; i += BATCH_SIZE) {
+      const batch = toCheck.slice(i, i + BATCH_SIZE);
+      const results = await Promise.all(
+        batch.map(async (r) => {
+          const { data: signed, error: sErr } = await supabase.storage
+            .from("cv-uploads")
+            .createSignedUrl(r.filePath!, 60);
+          return {
+            path: r.filePath!,
+            status: (!sErr && signed?.signedUrl ? "ok" : "missing") as "ok" | "missing",
+          };
+        })
+      );
+      results.forEach((res) => statusByPath.set(res.path, res.status));
+      done += batch.length;
+      setVerifyProgress({ done, total: toCheck.length });
+      // Apply progressive update so UI reflects partial results
+      setRows((prev) =>
+        prev.map((r) =>
+          r.filePath && statusByPath.has(r.filePath)
+            ? { ...r, fileStatus: statusByPath.get(r.filePath)! }
+            : r
+        )
+      );
+    }
+  };
 
   const load = async () => {
     setRefreshing(true);
@@ -68,20 +107,7 @@ const CVSubmissionsDebugPage = () => {
     setRows(parsed);
     setLoading(false);
 
-    // Verify storage existence for each file path
-    const checks = await Promise.all(
-      parsed.map(async (r) => {
-        if (!r.filePath) return r;
-        const { data: signed, error: sErr } = await supabase.storage
-          .from("cv-uploads")
-          .createSignedUrl(r.filePath, 60);
-        return {
-          ...r,
-          fileStatus: !sErr && signed?.signedUrl ? ("ok" as const) : ("missing" as const),
-        };
-      })
-    );
-    setRows(checks);
+    await verifyInBatches(parsed);
     setRefreshing(false);
   };
 
@@ -104,6 +130,9 @@ const CVSubmissionsDebugPage = () => {
   const withFile = rows.filter((r) => r.fileStatus === "ok").length;
   const broken = rows.filter((r) => r.fileStatus === "missing").length;
 
+  const verifying = verifyProgress.total > 0 && verifyProgress.done < verifyProgress.total;
+  const verifyPct = verifyProgress.total ? (verifyProgress.done / verifyProgress.total) * 100 : 0;
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-3">
@@ -118,6 +147,16 @@ const CVSubmissionsDebugPage = () => {
           Refresh
         </Button>
       </div>
+
+      {verifying && (
+        <div className="space-y-2">
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span>Verifying file storage in batches…</span>
+            <span>{verifyProgress.done} / {verifyProgress.total}</span>
+          </div>
+          <Progress value={verifyPct} className="h-2" />
+        </div>
+      )}
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card>
