@@ -8,6 +8,8 @@ import { Progress } from "@/components/ui/progress";
 import { Loader2, RefreshCw, Download, FileX, FileCheck, Mail } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
+import { Slider } from "@/components/ui/slider";
+import { Label } from "@/components/ui/label";
 
 type Inquiry = {
   id: string;
