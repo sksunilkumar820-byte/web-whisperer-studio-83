@@ -67,6 +67,35 @@ const readStoredBatchSize = (): number => {
   return DEFAULT_BATCH_SIZE;
 };
 
+const VERIFY_CACHE_KEY = "cv-debug:verify-cache";
+const VERIFY_TTL_MS = 10 * 60 * 1000; // 10 minutes
+
+type CachedStatus = { status: "ok" | "missing"; ts: number };
+type VerifyCache = Record<string, CachedStatus>;
+
+const readVerifyCache = (): VerifyCache => {
+  if (typeof window === "undefined") return {};
+  try {
+    const raw = window.localStorage.getItem(VERIFY_CACHE_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === "object" ? (parsed as VerifyCache) : {};
+  } catch {
+    return {};
+  }
+};
+
+const writeVerifyCache = (cache: VerifyCache) => {
+  try {
+    window.localStorage.setItem(VERIFY_CACHE_KEY, JSON.stringify(cache));
+  } catch {
+    // ignore quota / private mode
+  }
+};
+
+const isFresh = (entry: CachedStatus | undefined): entry is CachedStatus =>
+  !!entry && Date.now() - entry.ts < VERIFY_TTL_MS;
+
 const CVSubmissionsDebugPage = () => {
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
