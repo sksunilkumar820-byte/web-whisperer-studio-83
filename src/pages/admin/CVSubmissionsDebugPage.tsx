@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Progress } from "@/components/ui/progress";
 import { Loader2, RefreshCw, Download, FileX, FileCheck, Mail } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
@@ -129,6 +130,9 @@ const CVSubmissionsDebugPage = () => {
   const withFile = rows.filter((r) => r.fileStatus === "ok").length;
   const broken = rows.filter((r) => r.fileStatus === "missing").length;
 
+  const verifying = verifyProgress.total > 0 && verifyProgress.done < verifyProgress.total;
+  const verifyPct = verifyProgress.total ? (verifyProgress.done / verifyProgress.total) * 100 : 0;
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-3">
@@ -143,6 +147,16 @@ const CVSubmissionsDebugPage = () => {
           Refresh
         </Button>
       </div>
+
+      {verifying && (
+        <div className="space-y-2">
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span>Verifying file storage in batches…</span>
+            <span>{verifyProgress.done} / {verifyProgress.total}</span>
+          </div>
+          <Progress value={verifyPct} className="h-2" />
+        </div>
+      )}
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card>
