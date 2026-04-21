@@ -113,7 +113,7 @@ const CVSubmissionsDebugPage = () => {
     setRows(parsed);
     setLoading(false);
 
-    await verifyInBatches(parsed);
+    await verifyInBatches(parsed, batchSize);
     setRefreshing(false);
   };
 
