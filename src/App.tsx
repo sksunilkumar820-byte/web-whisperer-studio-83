@@ -30,6 +30,7 @@ const InquiriesPage = lazy(() => import("./pages/admin/InquiriesPage"));
 const CaseStudiesManagePage = lazy(() => import("./pages/admin/CaseStudiesManagePage"));
 const TestimonialsPage = lazy(() => import("./pages/admin/TestimonialsPage"));
 const AdminBlogPage = lazy(() => import("./pages/admin/BlogPage"));
+const CVSubmissionsDebugPage = lazy(() => import("./pages/admin/CVSubmissionsDebugPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -76,6 +77,7 @@ const App = () => (
                     <Route path="case-studies" element={<CaseStudiesManagePage />} />
                     <Route path="testimonials" element={<TestimonialsPage />} />
                     <Route path="blog" element={<AdminBlogPage />} />
+                    <Route path="cv-debug" element={<CVSubmissionsDebugPage />} />
                   </Route>
 
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
