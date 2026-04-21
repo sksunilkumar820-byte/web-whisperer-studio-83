@@ -148,10 +148,32 @@ const CVSubmissionsDebugPage = () => {
             End-to-end verification: form → database → storage. Showing latest 50 inquiries.
           </p>
         </div>
-        <Button onClick={load} disabled={refreshing} variant="outline">
-          <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? "animate-spin" : ""}`} />
-          Refresh
-        </Button>
+        <div className="flex items-end gap-4 flex-wrap">
+          <div className="w-56 space-y-2">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="batch-size" className="text-xs text-muted-foreground">
+                Verification batch size
+              </Label>
+              <span className="text-xs font-medium tabular-nums">{batchSize}</span>
+            </div>
+            <Slider
+              id="batch-size"
+              min={MIN_BATCH}
+              max={MAX_BATCH}
+              step={1}
+              value={[batchSize]}
+              onValueChange={(v) => setBatchSize(v[0] ?? DEFAULT_BATCH_SIZE)}
+              disabled={refreshing}
+            />
+            <p className="text-[10px] text-muted-foreground">
+              Applied on next refresh ({MIN_BATCH}–{MAX_BATCH}).
+            </p>
+          </div>
+          <Button onClick={load} disabled={refreshing} variant="outline">
+            <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? "animate-spin" : ""}`} />
+            Refresh
+          </Button>
+        </div>
       </div>
 
       {verifying && (
