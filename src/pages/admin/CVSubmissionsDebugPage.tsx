@@ -267,9 +267,17 @@ const CVSubmissionsDebugPage = () => {
               Applied on next refresh ({MIN_BATCH}–{MAX_BATCH}).
             </p>
           </div>
-          <Button onClick={load} disabled={refreshing} variant="outline">
+          <Button onClick={() => load(false)} disabled={refreshing} variant="outline">
             <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? "animate-spin" : ""}`} />
             Refresh
+          </Button>
+          <Button
+            onClick={() => load(true)}
+            disabled={refreshing}
+            variant="ghost"
+            title="Ignore cache and re-verify all files"
+          >
+            Force re-verify
           </Button>
         </div>
       </div>
