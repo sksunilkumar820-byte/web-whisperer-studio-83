@@ -66,8 +66,9 @@ const CVSubmissionsDebugPage = () => {
     const statusByPath = new Map<string, "ok" | "missing">();
     let done = 0;
 
-    for (let i = 0; i < toCheck.length; i += BATCH_SIZE) {
-      const batch = toCheck.slice(i, i + BATCH_SIZE);
+    const safeSize = Math.max(MIN_BATCH, Math.min(MAX_BATCH, size));
+    for (let i = 0; i < toCheck.length; i += safeSize) {
+      const batch = toCheck.slice(i, i + safeSize);
       const results = await Promise.all(
         batch.map(async (r) => {
           const { data: signed, error: sErr } = await supabase.storage
