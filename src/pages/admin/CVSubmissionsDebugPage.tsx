@@ -49,14 +49,40 @@ const parseRow = (i: Inquiry): Row => {
 const DEFAULT_BATCH_SIZE = 5;
 const MIN_BATCH = 1;
 const MAX_BATCH = 20;
+const BATCH_SIZE_STORAGE_KEY = "cv-debug:batch-size";
+
+const clampBatch = (n: number) =>
+  Math.max(MIN_BATCH, Math.min(MAX_BATCH, Math.round(n)));
+
+const readStoredBatchSize = (): number => {
+  if (typeof window === "undefined") return DEFAULT_BATCH_SIZE;
+  try {
+    const raw = window.localStorage.getItem(BATCH_SIZE_STORAGE_KEY);
+    if (!raw) return DEFAULT_BATCH_SIZE;
+    const parsed = Number.parseInt(raw, 10);
+    if (Number.isFinite(parsed)) return clampBatch(parsed);
+  } catch {
+    // ignore (private mode, etc.)
+  }
+  return DEFAULT_BATCH_SIZE;
+};
 
 const CVSubmissionsDebugPage = () => {
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [verifyProgress, setVerifyProgress] = useState({ done: 0, total: 0 });
-  const [batchSize, setBatchSize] = useState<number>(DEFAULT_BATCH_SIZE);
+  const [batchSize, setBatchSize] = useState<number>(() => readStoredBatchSize());
   const { toast } = useToast();
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(BATCH_SIZE_STORAGE_KEY, String(batchSize));
+    } catch {
+      // ignore storage errors
+    }
+  }, [batchSize]);
+
 
   const verifyInBatches = async (parsed: Row[], size: number) => {
     const toCheck = parsed.filter((r) => r.filePath);
