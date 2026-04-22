@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+const WHATSAPP_NUMBER = "918006996317";
+const WHATSAPP_MESSAGE = "Hi Workwhirl, I'd like to know more about your services.";
+
 const LiveChat = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
 
@@ -15,6 +18,20 @@ const LiveChat = () => {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleWhatsAppClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(
+      navigator.userAgent
+    );
+    const encodedMessage = encodeURIComponent(WHATSAPP_MESSAGE);
+    // Mobile: wa.me opens the app if installed, web fallback otherwise
+    // Desktop: web.whatsapp.com is more reliable than wa.me which often shows a landing page
+    const url = isMobile
+      ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`
+      : `https://web.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodedMessage}`;
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -33,10 +50,11 @@ const LiveChat = () => {
 
       {/* WhatsApp CTA */}
       <a
-        href="https://wa.me/918006996317?text=Hi%20Workwhirl%2C%20I%27d%20like%20to%20know%20more%20about%20your%20services."
+        href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`}
+        onClick={handleWhatsAppClick}
         target="_blank"
         rel="noopener noreferrer"
-        className="w-14 h-14 rounded-full bg-[#25D366] shadow-elegant hover:shadow-hover flex items-center justify-center transition-smooth hover:scale-110"
+        className="w-14 h-14 rounded-full bg-[#25D366] shadow-elegant hover:shadow-hover flex items-center justify-center transition-smooth hover:scale-110 cursor-pointer"
         aria-label="Chat on WhatsApp"
       >
         <svg className="w-7 h-7 text-white fill-current" viewBox="0 0 24 24">
