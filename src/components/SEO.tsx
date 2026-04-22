@@ -60,13 +60,24 @@ const SEO = ({
         postalCode: '110078',
         addressCountry: 'IN',
       },
-      contactPoint: {
-        '@type': 'ContactPoint',
-        telephone: '+91-8006996317',
-        contactType: 'customer service',
-        email: 'contact@workwhirl.com',
-        availableLanguage: ['English', 'Hindi'],
-      },
+      contactPoint: [
+        {
+          '@type': 'ContactPoint',
+          telephone: '+918006996317',
+          contactType: 'customer service',
+          email: 'contact@workwhirl.com',
+          availableLanguage: ['English', 'Hindi'],
+          areaServed: 'IN',
+        },
+        {
+          '@type': 'ContactPoint',
+          telephone: '+917982234448',
+          contactType: 'customer support',
+          email: 'contact@workwhirl.com',
+          availableLanguage: ['English', 'Hindi'],
+          areaServed: 'IN',
+        },
+      ],
     }),
   };
 
