@@ -32,7 +32,27 @@ const LiveChat = () => {
     const url = isMobile
       ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`
       : `https://web.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodedMessage}`;
-    window.open(url, "_blank", "noopener,noreferrer");
+
+    try {
+      const newWindow = window.open(url, "_blank", "noopener,noreferrer");
+      // Popup blocked or failed to open
+      if (!newWindow || newWindow.closed || typeof newWindow.closed === "undefined") {
+        throw new Error("Popup blocked");
+      }
+    } catch {
+      // Fallback: copy number and notify user
+      navigator.clipboard?.writeText(`+${WHATSAPP_NUMBER}`).catch(() => {});
+      toast.error("Couldn't open WhatsApp", {
+        description: `Please allow popups or message us at +${WHATSAPP_NUMBER} (copied to clipboard).`,
+        action: {
+          label: "Open link",
+          onClick: () => {
+            window.location.href = url;
+          },
+        },
+        duration: 8000,
+      });
+    }
   };
 
   return (
