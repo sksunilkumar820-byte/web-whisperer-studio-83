@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const WHATSAPP_NUMBER = "918006996317";
 const WHATSAPP_MESSAGE = "Hi Workwhirl, I'd like to know more about your services.";
