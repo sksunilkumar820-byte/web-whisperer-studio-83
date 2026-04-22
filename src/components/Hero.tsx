@@ -39,7 +39,7 @@ const Hero = () => {
               variant="outline"
               className="text-base px-10 py-5 font-bold uppercase tracking-wider hover:scale-105 transition-smooth border-2 border-white/40 text-white bg-white/10 hover:bg-white/20 hover:text-white backdrop-blur-sm"
             >
-              <Link to="/careers#job-listings">Find Open Positions</Link>
+              <Link to="/careers#job-listings">Open Positions</Link>
             </Button>
           </div>
 
@@ -47,7 +47,7 @@ const Hero = () => {
           <div className="flex flex-wrap justify-center items-center gap-8 text-white/70 text-sm">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-accent rounded-full"></div>
-              <span>50+ Companies Served</span>
+              <span>40+ Companies Served</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-accent rounded-full"></div>
