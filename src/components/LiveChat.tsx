@@ -35,6 +35,7 @@ const writeLastAttempt = (data: LastAttempt) => {
 
 const LiveChat = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const lastRetryAtRef = useRef<number>(0);
 
   useEffect(() => {
     const handleScroll = () => {
