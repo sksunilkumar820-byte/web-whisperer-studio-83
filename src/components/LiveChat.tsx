@@ -98,6 +98,26 @@ const LiveChat = () => {
         action: {
           label: "Retry",
           onClick: () => {
+            const now = Date.now();
+            const sinceLast = now - lastRetryAtRef.current;
+            if (lastRetryAtRef.current && sinceLast < RETRY_THROTTLE_MS) {
+              trackEvent("whatsapp_retry_throttled", {
+                device,
+                attempt,
+                ms_since_last: sinceLast,
+                throttle_window_ms: RETRY_THROTTLE_MS,
+              });
+              toast.warning("Slow down a sec", {
+                id: "whatsapp-open-failed",
+                description: `Please wait ${Math.ceil(
+                  (RETRY_THROTTLE_MS - sinceLast) / 1000
+                )}s before retrying.`,
+                duration: 3000,
+              });
+              return;
+            }
+            lastRetryAtRef.current = now;
+
             const previous = readLastAttempt();
             const previousMeta = previous
               ? {
