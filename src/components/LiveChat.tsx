@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -6,6 +6,7 @@ import { toast } from "sonner";
 const WHATSAPP_NUMBER = "918006996317";
 const WHATSAPP_MESSAGE = "Hi Workwhirl, I'd like to know more about your services.";
 const LAST_ATTEMPT_KEY = "wa_last_attempt";
+const RETRY_THROTTLE_MS = 2000;
 
 type LastAttempt = {
   outcome: "success" | "failed";
@@ -34,6 +35,7 @@ const writeLastAttempt = (data: LastAttempt) => {
 
 const LiveChat = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const lastRetryAtRef = useRef<number>(0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -96,6 +98,26 @@ const LiveChat = () => {
         action: {
           label: "Retry",
           onClick: () => {
+            const now = Date.now();
+            const sinceLast = now - lastRetryAtRef.current;
+            if (lastRetryAtRef.current && sinceLast < RETRY_THROTTLE_MS) {
+              trackEvent("whatsapp_retry_throttled", {
+                device,
+                attempt,
+                ms_since_last: sinceLast,
+                throttle_window_ms: RETRY_THROTTLE_MS,
+              });
+              toast.warning("Slow down a sec", {
+                id: "whatsapp-open-failed",
+                description: `Please wait ${Math.ceil(
+                  (RETRY_THROTTLE_MS - sinceLast) / 1000
+                )}s before retrying.`,
+                duration: 3000,
+              });
+              return;
+            }
+            lastRetryAtRef.current = now;
+
             const previous = readLastAttempt();
             const previousMeta = previous
               ? {
