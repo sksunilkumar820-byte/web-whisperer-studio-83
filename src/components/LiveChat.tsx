@@ -33,13 +33,44 @@ const LiveChat = () => {
       ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`
       : `https://web.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodedMessage}`;
 
+    const logFailure = (reason: string) => {
+      const payload = {
+        reason,
+        device: isMobile ? "mobile" : "desktop",
+        userAgent: navigator.userAgent,
+        timestamp: new Date().toISOString(),
+      };
+      // Console log for local debugging
+      console.warn("[WhatsApp] open failed", payload);
+      // GA4 event (if Google Analytics is loaded)
+      try {
+        const w = window as unknown as {
+          gtag?: (...args: unknown[]) => void;
+          dataLayer?: unknown[];
+        };
+        if (typeof w.gtag === "function") {
+          w.gtag("event", "whatsapp_open_failed", {
+            event_category: "engagement",
+            event_label: reason,
+            device: payload.device,
+          });
+        } else if (Array.isArray(w.dataLayer)) {
+          w.dataLayer.push({ event: "whatsapp_open_failed", ...payload });
+        }
+      } catch {
+        // Swallow logging errors — never break UX for analytics
+      }
+    };
+
     try {
       const newWindow = window.open(url, "_blank", "noopener,noreferrer");
       // Popup blocked or failed to open
       if (!newWindow || newWindow.closed || typeof newWindow.closed === "undefined") {
-        throw new Error("Popup blocked");
+        throw new Error("popup_blocked");
       }
-    } catch {
+    } catch (err) {
+      const reason = err instanceof Error ? err.message : "unknown";
+      logFailure(reason);
       // Fallback: copy number and notify user
       navigator.clipboard?.writeText(`+${WHATSAPP_NUMBER}`).catch(() => {});
       toast.error("Couldn't open WhatsApp", {
