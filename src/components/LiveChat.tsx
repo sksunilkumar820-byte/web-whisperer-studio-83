@@ -5,6 +5,32 @@ import { toast } from "sonner";
 
 const WHATSAPP_NUMBER = "918006996317";
 const WHATSAPP_MESSAGE = "Hi Workwhirl, I'd like to know more about your services.";
+const LAST_ATTEMPT_KEY = "wa_last_attempt";
+
+type LastAttempt = {
+  outcome: "success" | "failed";
+  device: "mobile" | "desktop";
+  attempt: number;
+  reason?: string;
+  timestamp: string;
+};
+
+const readLastAttempt = (): LastAttempt | null => {
+  try {
+    const raw = localStorage.getItem(LAST_ATTEMPT_KEY);
+    return raw ? (JSON.parse(raw) as LastAttempt) : null;
+  } catch {
+    return null;
+  }
+};
+
+const writeLastAttempt = (data: LastAttempt) => {
+  try {
+    localStorage.setItem(LAST_ATTEMPT_KEY, JSON.stringify(data));
+  } catch {
+    // localStorage unavailable (private mode, quota) — silently ignore
+  }
+};
 
 const LiveChat = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
