@@ -21,11 +21,40 @@ const LiveChat = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const trackEvent = (event: string, data: Record<string, unknown>) => {
+    try {
+      const w = window as unknown as {
+        gtag?: (...args: unknown[]) => void;
+        dataLayer?: unknown[];
+      };
+      if (typeof w.gtag === "function") {
+        w.gtag("event", event, { event_category: "engagement", ...data });
+      } else if (Array.isArray(w.dataLayer)) {
+        w.dataLayer.push({ event, ...data });
+      }
+    } catch {
+      // Swallow logging errors — never break UX for analytics
+    }
+  };
+
+  const tryOpenWhatsApp = (url: string): boolean => {
+    try {
+      const newWindow = window.open(url, "_blank", "noopener,noreferrer");
+      if (!newWindow || newWindow.closed || typeof newWindow.closed === "undefined") {
+        return false;
+      }
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
   const handleWhatsAppClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(
       navigator.userAgent
     );
+    const device = isMobile ? "mobile" : "desktop";
     const encodedMessage = encodeURIComponent(WHATSAPP_MESSAGE);
     // Mobile: wa.me opens the app if installed, web fallback otherwise
     // Desktop: web.whatsapp.com is more reliable than wa.me which often shows a landing page
@@ -33,57 +62,34 @@ const LiveChat = () => {
       ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`
       : `https://web.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodedMessage}`;
 
-    const logFailure = (reason: string) => {
-      const payload = {
-        reason,
-        device: isMobile ? "mobile" : "desktop",
-        userAgent: navigator.userAgent,
-        timestamp: new Date().toISOString(),
-      };
-      // Console log for local debugging
-      console.warn("[WhatsApp] open failed", payload);
-      // GA4 event (if Google Analytics is loaded)
-      try {
-        const w = window as unknown as {
-          gtag?: (...args: unknown[]) => void;
-          dataLayer?: unknown[];
-        };
-        if (typeof w.gtag === "function") {
-          w.gtag("event", "whatsapp_open_failed", {
-            event_category: "engagement",
-            event_label: reason,
-            device: payload.device,
-          });
-        } else if (Array.isArray(w.dataLayer)) {
-          w.dataLayer.push({ event: "whatsapp_open_failed", ...payload });
-        }
-      } catch {
-        // Swallow logging errors — never break UX for analytics
-      }
-    };
-
-    try {
-      const newWindow = window.open(url, "_blank", "noopener,noreferrer");
-      // Popup blocked or failed to open
-      if (!newWindow || newWindow.closed || typeof newWindow.closed === "undefined") {
-        throw new Error("popup_blocked");
-      }
-    } catch (err) {
-      const reason = err instanceof Error ? err.message : "unknown";
-      logFailure(reason);
-      // Fallback: copy number and notify user
+    const showFailureToast = (attempt: number) => {
       navigator.clipboard?.writeText(`+${WHATSAPP_NUMBER}`).catch(() => {});
       toast.error("Couldn't open WhatsApp", {
+        id: "whatsapp-open-failed",
         description: `Please allow popups or message us at +${WHATSAPP_NUMBER} (copied to clipboard).`,
         action: {
-          label: "Open link",
+          label: "Retry",
           onClick: () => {
-            window.location.href = url;
+            trackEvent("whatsapp_retry_attempt", { device, attempt });
+            const ok = tryOpenWhatsApp(url);
+            if (ok) {
+              trackEvent("whatsapp_retry_success", { device, attempt });
+              toast.success("Opening WhatsApp…", { id: "whatsapp-open-failed" });
+            } else {
+              trackEvent("whatsapp_retry_failed", { device, attempt });
+              showFailureToast(attempt + 1);
+            }
           },
         },
-        duration: 8000,
+        duration: 10000,
       });
-    }
+    };
+
+    if (tryOpenWhatsApp(url)) return;
+
+    console.warn("[WhatsApp] open failed", { device, userAgent: navigator.userAgent });
+    trackEvent("whatsapp_open_failed", { device, reason: "popup_blocked" });
+    showFailureToast(1);
   };
 
   return (
