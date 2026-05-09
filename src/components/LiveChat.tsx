@@ -101,12 +101,28 @@ const LiveChat = () => {
             const now = Date.now();
             const sinceLast = now - lastRetryAtRef.current;
             if (lastRetryAtRef.current && sinceLast < RETRY_THROTTLE_MS) {
-              trackEvent("whatsapp_retry_throttled", {
+              const previous = readLastAttempt();
+              // Predict outcome of the would-be retry from the most recent stored attempt.
+              // success → likely_success, failed → likely_failed, none → unknown
+              const predicted_outcome =
+                previous?.outcome === "success"
+                  ? "likely_success"
+                  : previous?.outcome === "failed"
+                  ? "likely_failed"
+                  : "unknown";
+              const sharedMeta = {
                 device,
                 attempt,
                 ms_since_last: sinceLast,
                 throttle_window_ms: RETRY_THROTTLE_MS,
-              });
+                predicted_outcome,
+                prev_outcome: previous?.outcome ?? "none",
+                prev_attempt: previous?.attempt ?? 0,
+                prev_reason: previous?.reason ?? "n/a",
+                prev_timestamp: previous?.timestamp ?? "n/a",
+              };
+              trackEvent("whatsapp_retry_throttled", sharedMeta);
+              trackEvent("whatsapp_retry_click_blocked", sharedMeta);
               toast.warning("Slow down a sec", {
                 id: "whatsapp-open-failed",
                 description: `Please wait ${Math.ceil(
