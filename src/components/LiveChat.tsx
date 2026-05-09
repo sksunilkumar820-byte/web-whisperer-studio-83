@@ -6,6 +6,7 @@ import { toast } from "sonner";
 const WHATSAPP_NUMBER = "918006996317";
 const WHATSAPP_MESSAGE = "Hi Workwhirl, I'd like to know more about your services.";
 const LAST_ATTEMPT_KEY = "wa_last_attempt";
+const RETRY_THROTTLE_MS = 2000;
 
 type LastAttempt = {
   outcome: "success" | "failed";
