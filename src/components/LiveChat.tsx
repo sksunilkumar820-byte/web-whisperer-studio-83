@@ -96,13 +96,31 @@ const LiveChat = () => {
         action: {
           label: "Retry",
           onClick: () => {
-            trackEvent("whatsapp_retry_attempt", { device, attempt });
+            const previous = readLastAttempt();
+            const previousMeta = previous
+              ? {
+                  prev_outcome: previous.outcome,
+                  prev_attempt: previous.attempt,
+                  prev_reason: previous.reason ?? "n/a",
+                  prev_timestamp: previous.timestamp,
+                }
+              : { prev_outcome: "none" };
+            trackEvent("whatsapp_retry_attempt", { device, attempt, ...previousMeta });
             const ok = tryOpenWhatsApp(url);
+            const timestamp = new Date().toISOString();
             if (ok) {
-              trackEvent("whatsapp_retry_success", { device, attempt });
+              trackEvent("whatsapp_retry_success", { device, attempt, ...previousMeta });
+              writeLastAttempt({ outcome: "success", device, attempt, timestamp });
               toast.success("Opening WhatsApp…", { id: "whatsapp-open-failed" });
             } else {
-              trackEvent("whatsapp_retry_failed", { device, attempt });
+              trackEvent("whatsapp_retry_failed", { device, attempt, ...previousMeta });
+              writeLastAttempt({
+                outcome: "failed",
+                device,
+                attempt,
+                reason: "popup_blocked",
+                timestamp,
+              });
               showFailureToast(attempt + 1);
             }
           },
@@ -111,10 +129,25 @@ const LiveChat = () => {
       });
     };
 
-    if (tryOpenWhatsApp(url)) return;
+    if (tryOpenWhatsApp(url)) {
+      writeLastAttempt({
+        outcome: "success",
+        device,
+        attempt: 0,
+        timestamp: new Date().toISOString(),
+      });
+      return;
+    }
 
     console.warn("[WhatsApp] open failed", { device, userAgent: navigator.userAgent });
     trackEvent("whatsapp_open_failed", { device, reason: "popup_blocked" });
+    writeLastAttempt({
+      outcome: "failed",
+      device,
+      attempt: 0,
+      reason: "popup_blocked",
+      timestamp: new Date().toISOString(),
+    });
     showFailureToast(1);
   };
 
