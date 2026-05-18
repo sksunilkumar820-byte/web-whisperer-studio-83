@@ -82,6 +82,19 @@ const Contact = () => {
         return;
       }
 
+      let resumePath = "";
+      if (cvFile) {
+        const ext = cvFile.name.split(".").pop();
+        const path = `${crypto.randomUUID()}.${ext}`;
+        const { error: uploadError } = await supabase.storage.from("cv-uploads").upload(path, cvFile);
+        if (uploadError) throw uploadError;
+        resumePath = path;
+      }
+
+      const finalMessage = resumePath
+        ? `${validatedData.message}\n\n[Attached CV: ${resumePath}]`
+        : validatedData.message;
+
       // Insert into database
       const { error } = await supabase
         .from("contact_inquiries")
@@ -90,7 +103,7 @@ const Contact = () => {
           email: validatedData.email,
           phone: validatedData.phone || null,
           company: validatedData.company || null,
-          message: validatedData.message,
+          message: finalMessage,
         }]);
 
       if (error) throw error;
@@ -109,6 +122,8 @@ const Contact = () => {
         company: "",
         message: "",
       });
+      setCvFile(null);
+      if (cvInputRef.current) cvInputRef.current.value = "";
     } catch (error) {
       if (error instanceof z.ZodError) {
         toast({
