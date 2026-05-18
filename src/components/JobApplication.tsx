@@ -155,6 +155,8 @@ const JobApplication = ({ job, onBack }: JobApplicationProps) => {
         cover_letter: "",
         years_of_experience: "",
       });
+      setCvFile(null);
+      if (cvInputRef.current) cvInputRef.current.value = "";
       setTimeout(onBack, 2000);
     } catch (error) {
       if (error instanceof z.ZodError) {
