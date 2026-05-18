@@ -57,6 +57,8 @@ const JobApplication = ({ job, onBack }: JobApplicationProps) => {
     years_of_experience: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [cvFile, setCvFile] = useState<File | null>(null);
+  const cvInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -64,6 +66,20 @@ const JobApplication = ({ job, onBack }: JobApplicationProps) => {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleCvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.files?.[0];
+    if (!selected) return;
+    if (!CV_TYPES.includes(selected.type)) {
+      toast({ title: "Invalid file type", description: "Please upload a PDF or Word document.", variant: "destructive" });
+      return;
+    }
+    if (selected.size > MAX_CV_SIZE) {
+      toast({ title: "File too large", description: "Maximum file size is 5 MB.", variant: "destructive" });
+      return;
+    }
+    setCvFile(selected);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
