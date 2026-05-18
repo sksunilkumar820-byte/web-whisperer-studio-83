@@ -1,10 +1,17 @@
 import { Button } from "@/components/ui/button";
-import { Phone, Mail, MapPin } from "lucide-react";
-import { useState } from "react";
+import { Phone, Mail, MapPin, Upload, FileText, X } from "lucide-react";
+import { useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { checkRateLimit } from "@/lib/rateLimit";
+
+const MAX_CV_SIZE = 5 * 1024 * 1024;
+const CV_TYPES = [
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+];
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
@@ -16,6 +23,8 @@ const contactSchema = z.object({
 const Contact = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [cvFile, setCvFile] = useState<File | null>(null);
+  const cvInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -28,6 +37,20 @@ const Contact = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleCvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.files?.[0];
+    if (!selected) return;
+    if (!CV_TYPES.includes(selected.type)) {
+      toast({ title: "Invalid file type", description: "Please upload a PDF or Word document.", variant: "destructive" });
+      return;
+    }
+    if (selected.size > MAX_CV_SIZE) {
+      toast({ title: "File too large", description: "Maximum file size is 5 MB.", variant: "destructive" });
+      return;
+    }
+    setCvFile(selected);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -59,6 +82,19 @@ const Contact = () => {
         return;
       }
 
+      let resumePath = "";
+      if (cvFile) {
+        const ext = cvFile.name.split(".").pop();
+        const path = `${crypto.randomUUID()}.${ext}`;
+        const { error: uploadError } = await supabase.storage.from("cv-uploads").upload(path, cvFile);
+        if (uploadError) throw uploadError;
+        resumePath = path;
+      }
+
+      const finalMessage = resumePath
+        ? `${validatedData.message}\n\n[Attached CV: ${resumePath}]`
+        : validatedData.message;
+
       // Insert into database
       const { error } = await supabase
         .from("contact_inquiries")
@@ -67,7 +103,7 @@ const Contact = () => {
           email: validatedData.email,
           phone: validatedData.phone || null,
           company: validatedData.company || null,
-          message: validatedData.message,
+          message: finalMessage,
         }]);
 
       if (error) throw error;
@@ -86,6 +122,8 @@ const Contact = () => {
         company: "",
         message: "",
       });
+      setCvFile(null);
+      if (cvInputRef.current) cvInputRef.current.value = "";
     } catch (error) {
       if (error instanceof z.ZodError) {
         toast({
@@ -198,6 +236,42 @@ const Contact = () => {
                   className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none transition-smooth resize-none" 
                   placeholder="Tell us about your staffing needs..." 
                 />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">Attach CV / Resume (Optional, PDF or Word, max 5 MB)</label>
+                <input
+                  ref={cvInputRef}
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  onChange={handleCvChange}
+                  className="hidden"
+                  disabled={isSubmitting}
+                />
+                {cvFile ? (
+                  <div className="flex items-center gap-3 p-3 rounded-lg border border-primary/30 bg-primary/5">
+                    <FileText className="w-5 h-5 text-primary shrink-0" />
+                    <span className="text-sm text-foreground truncate flex-1">{cvFile.name}</span>
+                    <button
+                      type="button"
+                      onClick={() => { setCvFile(null); if (cvInputRef.current) cvInputRef.current.value = ""; }}
+                      className="text-muted-foreground hover:text-destructive transition-colors"
+                      aria-label="Remove file"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => cvInputRef.current?.click()}
+                    disabled={isSubmitting}
+                    className="w-full flex flex-col items-center gap-2 p-5 rounded-lg border-2 border-dashed border-border hover:border-primary/50 hover:bg-primary/5 transition-colors cursor-pointer"
+                  >
+                    <Upload className="w-6 h-6 text-muted-foreground" />
+                    <span className="text-sm text-muted-foreground">Click to upload your CV</span>
+                  </button>
+                )}
               </div>
               
               <Button 

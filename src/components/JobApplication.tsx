@@ -1,14 +1,21 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, MapPin, Briefcase, DollarSign } from "lucide-react";
+import { ArrowLeft, MapPin, Briefcase, DollarSign, Upload, FileText, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 import { checkRateLimit } from "@/lib/rateLimit";
+
+const MAX_CV_SIZE = 5 * 1024 * 1024;
+const CV_TYPES = [
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+];
 
 interface JobListing {
   id: string;
@@ -50,6 +57,8 @@ const JobApplication = ({ job, onBack }: JobApplicationProps) => {
     years_of_experience: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [cvFile, setCvFile] = useState<File | null>(null);
+  const cvInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -57,6 +66,20 @@ const JobApplication = ({ job, onBack }: JobApplicationProps) => {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleCvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.files?.[0];
+    if (!selected) return;
+    if (!CV_TYPES.includes(selected.type)) {
+      toast({ title: "Invalid file type", description: "Please upload a PDF or Word document.", variant: "destructive" });
+      return;
+    }
+    if (selected.size > MAX_CV_SIZE) {
+      toast({ title: "File too large", description: "Maximum file size is 5 MB.", variant: "destructive" });
+      return;
+    }
+    setCvFile(selected);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -89,6 +112,16 @@ const JobApplication = ({ job, onBack }: JobApplicationProps) => {
         return;
       }
 
+
+      let resumePath: string | null = null;
+      if (cvFile) {
+        const ext = cvFile.name.split(".").pop();
+        const path = `${crypto.randomUUID()}.${ext}`;
+        const { error: uploadError } = await supabase.storage.from("cv-uploads").upload(path, cvFile);
+        if (uploadError) throw uploadError;
+        resumePath = path;
+      }
+
       const { error } = await supabase.from("job_applications").insert([
         {
           job_id: job.id,
@@ -100,6 +133,7 @@ const JobApplication = ({ job, onBack }: JobApplicationProps) => {
           portfolio_url: validatedData.portfolio_url || null,
           cover_letter: validatedData.cover_letter,
           years_of_experience: validatedData.years_of_experience || null,
+          resume_url: resumePath,
         },
       ]);
 
@@ -121,6 +155,8 @@ const JobApplication = ({ job, onBack }: JobApplicationProps) => {
         cover_letter: "",
         years_of_experience: "",
       });
+      setCvFile(null);
+      if (cvInputRef.current) cvInputRef.current.value = "";
       setTimeout(onBack, 2000);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -297,6 +333,42 @@ const JobApplication = ({ job, onBack }: JobApplicationProps) => {
                 onChange={handleChange}
                 disabled={isSubmitting}
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label>Upload CV / Resume (PDF or Word, max 5 MB)</Label>
+              <input
+                ref={cvInputRef}
+                type="file"
+                accept=".pdf,.doc,.docx"
+                onChange={handleCvChange}
+                className="hidden"
+                disabled={isSubmitting}
+              />
+              {cvFile ? (
+                <div className="flex items-center gap-3 p-3 rounded-lg border border-primary/30 bg-primary/5">
+                  <FileText className="w-5 h-5 text-primary shrink-0" />
+                  <span className="text-sm text-foreground truncate flex-1">{cvFile.name}</span>
+                  <button
+                    type="button"
+                    onClick={() => { setCvFile(null); if (cvInputRef.current) cvInputRef.current.value = ""; }}
+                    className="text-muted-foreground hover:text-destructive transition-colors"
+                    aria-label="Remove file"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => cvInputRef.current?.click()}
+                  disabled={isSubmitting}
+                  className="w-full flex flex-col items-center gap-2 p-6 rounded-lg border-2 border-dashed border-border hover:border-primary/50 hover:bg-primary/5 transition-colors cursor-pointer"
+                >
+                  <Upload className="w-8 h-8 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">Click to upload your CV</span>
+                </button>
+              )}
             </div>
 
             <div className="space-y-2">
