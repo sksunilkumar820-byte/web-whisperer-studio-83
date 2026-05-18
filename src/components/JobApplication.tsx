@@ -112,6 +112,16 @@ const JobApplication = ({ job, onBack }: JobApplicationProps) => {
         return;
       }
 
+
+      let resumePath: string | null = null;
+      if (cvFile) {
+        const ext = cvFile.name.split(".").pop();
+        const path = `${crypto.randomUUID()}.${ext}`;
+        const { error: uploadError } = await supabase.storage.from("cv-uploads").upload(path, cvFile);
+        if (uploadError) throw uploadError;
+        resumePath = path;
+      }
+
       const { error } = await supabase.from("job_applications").insert([
         {
           job_id: job.id,
@@ -123,6 +133,7 @@ const JobApplication = ({ job, onBack }: JobApplicationProps) => {
           portfolio_url: validatedData.portfolio_url || null,
           cover_letter: validatedData.cover_letter,
           years_of_experience: validatedData.years_of_experience || null,
+          resume_url: resumePath,
         },
       ]);
 
