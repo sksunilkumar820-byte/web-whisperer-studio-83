@@ -112,6 +112,41 @@ const JobApplication = ({ job, onBack }: JobApplicationProps) => {
         return;
       }
 
+            <div className="space-y-2">
+              <Label>Upload CV / Resume (PDF or Word, max 5 MB)</Label>
+              <input
+                ref={cvInputRef}
+                type="file"
+                accept=".pdf,.doc,.docx"
+                onChange={handleCvChange}
+                className="hidden"
+                disabled={isSubmitting}
+              />
+              {cvFile ? (
+                <div className="flex items-center gap-3 p-3 rounded-lg border border-primary/30 bg-primary/5">
+                  <FileText className="w-5 h-5 text-primary shrink-0" />
+                  <span className="text-sm text-foreground truncate flex-1">{cvFile.name}</span>
+                  <button
+                    type="button"
+                    onClick={() => { setCvFile(null); if (cvInputRef.current) cvInputRef.current.value = ""; }}
+                    className="text-muted-foreground hover:text-destructive transition-colors"
+                    aria-label="Remove file"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => cvInputRef.current?.click()}
+                  disabled={isSubmitting}
+                  className="w-full flex flex-col items-center gap-2 p-6 rounded-lg border-2 border-dashed border-border hover:border-primary/50 hover:bg-primary/5 transition-colors cursor-pointer"
+                >
+                  <Upload className="w-8 h-8 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">Click to upload your CV</span>
+                </button>
+              )}
+            </div>
 
       let resumePath: string | null = null;
       if (cvFile) {
