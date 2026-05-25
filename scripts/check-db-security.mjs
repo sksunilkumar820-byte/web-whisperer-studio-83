@@ -87,6 +87,7 @@ function checkFile(file) {
     );
     if (revokeRe.test(text)) continue;
     if (isAllowed(lines, lineNo) || (lineNo > 0 && isAllowed(lines, lineNo - 1))) continue;
+    if (isInAllowlist(file, lineNo + 1, "definer-no-revoke")) continue;
     findings.push({
       file,
       line: lineNo + 1,
