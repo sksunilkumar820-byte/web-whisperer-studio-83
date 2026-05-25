@@ -11,10 +11,23 @@
  * Suppress a finding by placing on the same line or the line above:
  *   -- security-check: allow <short reason>
  */
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
 const ROOT = "supabase/migrations";
+const ALLOWLIST_FILE = ".security-check-allow.json";
+
+let allowlist = [];
+if (existsSync(ALLOWLIST_FILE)) {
+  try {
+    allowlist = JSON.parse(readFileSync(ALLOWLIST_FILE, "utf8")).allow || [];
+  } catch (e) {
+    console.error(`Failed to parse ${ALLOWLIST_FILE}: ${e.message}`);
+    process.exit(2);
+  }
+}
+const isInAllowlist = (file, line, rule) =>
+  allowlist.some((a) => a.file === file && a.line === line && a.rule === rule);
 const ALLOW = /--\s*security-check:\s*allow\b/i;
 
 function listSql(dir) {
