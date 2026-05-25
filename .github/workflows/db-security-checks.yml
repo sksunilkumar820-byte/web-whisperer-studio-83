@@ -5,12 +5,14 @@ on:
     paths:
       - "supabase/migrations/**"
       - "scripts/check-db-security.mjs"
+      - ".security-check-allow.json"
       - ".github/workflows/db-security-checks.yml"
   push:
     branches: [main]
     paths:
       - "supabase/migrations/**"
       - "scripts/check-db-security.mjs"
+      - ".security-check-allow.json"
 
 jobs:
   scan:
