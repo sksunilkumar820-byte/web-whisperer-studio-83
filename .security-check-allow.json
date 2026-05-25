@@ -1,0 +1,59 @@
+{
+  "$schema": "Allowlist of known-intentional findings. Each entry: { file, line, rule, reason }. Match is exact on file path + rule + line. New migrations should prefer an inline '-- security-check: allow <reason>' comment over adding entries here.",
+  "allow": [
+    {
+      "file": "supabase/migrations/20251105102921_8bec834a-b8eb-43ae-8ad4-600608f9581e.sql",
+      "line": 16,
+      "rule": "permissive-rls",
+      "reason": "Public contact form — anonymous INSERT only; reads are admin-gated via has_role()."
+    },
+    {
+      "file": "supabase/migrations/20251111081825_ef8c9ce5-b20e-4261-b40c-da64f4e366cd.sql",
+      "line": 12,
+      "rule": "permissive-rls",
+      "reason": "Public newsletter signup — anonymous INSERT only; reads are admin-gated."
+    },
+    {
+      "file": "supabase/migrations/20251111082037_7fa1f9c7-f3e8-4f8c-90aa-7cbee2bf87cb.sql",
+      "line": 51,
+      "rule": "permissive-rls",
+      "reason": "Public job application submission — anonymous INSERT only; reads are admin-gated."
+    },
+    {
+      "file": "supabase/migrations/20251114055149_6d36fb42-675b-4623-9451-7ae67b8b147f.sql",
+      "line": 60,
+      "rule": "permissive-rls",
+      "reason": "Recreated job_applications table — same public INSERT policy as original migration."
+    },
+    {
+      "file": "supabase/migrations/20251125031843_6fc99382-2115-42b4-8888-9401a435d617.sql",
+      "line": 17,
+      "rule": "permissive-rls",
+      "reason": "Public job_alerts subscription — anonymous INSERT only."
+    },
+    {
+      "file": "supabase/migrations/20251125031843_6fc99382-2115-42b4-8888-9401a435d617.sql",
+      "line": 23,
+      "rule": "permissive-rls",
+      "reason": "Legacy job_alerts UPDATE policy; later tightened to (email = auth.email()) for authenticated users."
+    },
+    {
+      "file": "supabase/migrations/20251114055215_3bcc89a4-9438-41f8-b2ee-feb5c0d59392.sql",
+      "line": 2,
+      "rule": "definer-no-revoke",
+      "reason": "update_updated_at_column is a trigger function with no data access; cannot be invoked via PostgREST."
+    },
+    {
+      "file": "supabase/migrations/20251127084806_1a547ff6-d87f-4bd4-a241-5a6deaca11ca.sql",
+      "line": 17,
+      "rule": "definer-no-revoke",
+      "reason": "has_role() must be EXECUTE-able by anon/authenticated because RLS policies across the schema invoke it. Returns only a boolean."
+    },
+    {
+      "file": "supabase/migrations/20260106065638_74b562c7-2df8-4eef-8356-512f50089760.sql",
+      "line": 25,
+      "rule": "definer-no-revoke",
+      "reason": "cleanup_old_rate_limits() EXECUTE was revoked in a later migration (20260524065139) to service_role only."
+    }
+  ]
+}
