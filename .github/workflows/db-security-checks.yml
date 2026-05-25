@@ -1,0 +1,27 @@
+name: DB Security Checks
+
+on:
+  pull_request:
+    paths:
+      - "supabase/migrations/**"
+      - "scripts/check-db-security.mjs"
+      - ".security-check-allow.json"
+      - ".github/workflows/db-security-checks.yml"
+  push:
+    branches: [main]
+    paths:
+      - "supabase/migrations/**"
+      - "scripts/check-db-security.mjs"
+      - ".security-check-allow.json"
+
+jobs:
+  scan:
+    name: Scan migrations for risky RLS / DEFINER patterns
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run static DB security checks
+        run: node scripts/check-db-security.mjs
