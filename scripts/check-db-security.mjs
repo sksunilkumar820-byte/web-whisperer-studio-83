@@ -65,7 +65,7 @@ function checkFile(file) {
     for (let i = Math.max(0, lineNo - 1); i <= endLine; i++) {
       if (isAllowed(lines, i)) { allowed = true; break; }
     }
-    if (!allowed) {
+    if (!allowed && !isInAllowlist(file, lineNo + 1, "permissive-rls")) {
       findings.push({
         file,
         line: lineNo + 1,
