@@ -337,6 +337,36 @@ export type Database = {
         }
         Relationships: []
       }
+      rate_limit_cleanup_log: {
+        Row: {
+          deleted_count: number
+          error_message: string | null
+          executed_at: string
+          executed_by: string
+          id: string
+          invoking_role: string
+          success: boolean
+        }
+        Insert: {
+          deleted_count?: number
+          error_message?: string | null
+          executed_at?: string
+          executed_by: string
+          id?: string
+          invoking_role: string
+          success?: boolean
+        }
+        Update: {
+          deleted_count?: number
+          error_message?: string | null
+          executed_at?: string
+          executed_by?: string
+          id?: string
+          invoking_role?: string
+          success?: boolean
+        }
+        Relationships: []
+      }
       rate_limits: {
         Row: {
           created_at: string
@@ -423,7 +453,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      cleanup_old_rate_limits: { Args: never; Returns: undefined }
+      cleanup_old_rate_limits: { Args: never; Returns: number }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
