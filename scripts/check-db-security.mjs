@@ -74,7 +74,42 @@ function checkFile(file) {
         rule: "permissive-rls",
         message: `Policy uses (true) on ${m[1].toUpperCase()} — restrict or add "-- security-check: allow <reason>".`,
       });
+  }
+
+  // 1b. Permissive SELECT (USING (true)) granted to non-admin roles.
+  // Match CREATE POLICY ... FOR SELECT [TO <roles>] ... USING (true).
+  const selectRe =
+    /create\s+policy\s+[\s\S]*?for\s+select\b([\s\S]*?)using\s*\(\s*true\s*\)/gi;
+  while ((m = selectRe.exec(text)) !== null) {
+    const between = m[1];
+    // Extract optional TO clause roles between FOR SELECT and USING.
+    const toMatch = between.match(/\bto\s+([a-z_,\s"]+?)(?=\busing\b|$)/i);
+    const roles = toMatch
+      ? toMatch[1]
+          .split(",")
+          .map((r) => r.trim().replace(/"/g, "").toLowerCase())
+          .filter(Boolean)
+      : ["public"]; // no TO clause defaults to PUBLIC
+    // Allow if every listed role is a privileged/service role.
+    const privileged = new Set(["service_role", "postgres", "supabase_admin"]);
+    const allPrivileged = roles.length > 0 && roles.every((r) => privileged.has(r));
+    if (allPrivileged) continue;
+
+    const lineNo = text.slice(0, m.index).split(/\r?\n/).length - 1;
+    const endLine = text.slice(0, m.index + m[0].length).split(/\r?\n/).length - 1;
+    let allowed = false;
+    for (let i = Math.max(0, lineNo - 1); i <= endLine; i++) {
+      if (isAllowed(lines, i)) { allowed = true; break; }
     }
+    if (!allowed && !isInAllowlist(file, lineNo + 1, "permissive-select")) {
+      findings.push({
+        file,
+        line: lineNo + 1,
+        rule: "permissive-select",
+        message: `SELECT policy uses USING (true) for role(s) [${roles.join(", ")}] — restrict via has_role()/auth.uid(), or add "-- security-check: allow <reason>" for intentional public reads.`,
+      });
+    }
+  }
   }
 
   // 2. SECURITY DEFINER without REVOKE EXECUTE in same file.
