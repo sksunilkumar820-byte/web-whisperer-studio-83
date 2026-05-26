@@ -74,7 +74,10 @@ function checkFile(file) {
         rule: "permissive-rls",
         message: `Policy uses (true) on ${m[1].toUpperCase()} — restrict or add "-- security-check: allow <reason>".`,
       });
+    }
   }
+
+
 
   // 1b. Permissive SELECT (USING (true)) granted to non-admin roles.
   // Match CREATE POLICY ... FOR SELECT [TO <roles>] ... USING (true).
