@@ -3,9 +3,11 @@
  * Static security checks over supabase/migrations/*.sql
  *
  * Flags:
- *  1. RLS policies with USING (true) or WITH CHECK (true) on INSERT/UPDATE/DELETE
- *     (SELECT is allowed — common pattern for public read).
- *  2. CREATE [OR REPLACE] FUNCTION ... SECURITY DEFINER without a matching
+ *  1. RLS policies with USING (true) or WITH CHECK (true) on INSERT/UPDATE/DELETE/ALL.
+ *  2. RLS policies with USING (true) on SELECT granted to non-admin roles
+ *     (anon, authenticated, public, or no TO clause). Rule: permissive-select.
+ *     Intentional public-read tables must be allowlisted with a reason.
+ *  3. CREATE [OR REPLACE] FUNCTION ... SECURITY DEFINER without a matching
  *     REVOKE EXECUTE ... FROM { public | anon | authenticated } in the same file.
  *
  * Suppress a finding by placing on the same line or the line above:
