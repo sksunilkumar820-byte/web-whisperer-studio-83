@@ -79,18 +79,16 @@ function checkFile(file) {
   // 1b. Permissive SELECT (USING (true)) granted to non-admin roles.
   // Match CREATE POLICY ... FOR SELECT [TO <roles>] ... USING (true).
   const selectRe =
-    /create\s+policy\s+[\s\S]*?for\s+select\b([\s\S]*?)using\s*\(\s*true\s*\)/gi;
+    /create\s+policy\s+[^;]*?for\s+select\b([^;]*?)using\s*\(\s*true\s*\)/gi;
   while ((m = selectRe.exec(text)) !== null) {
     const between = m[1];
-    // Extract optional TO clause roles between FOR SELECT and USING.
     const toMatch = between.match(/\bto\s+([a-z_,\s"]+?)(?=\busing\b|$)/i);
     const roles = toMatch
       ? toMatch[1]
           .split(",")
           .map((r) => r.trim().replace(/"/g, "").toLowerCase())
           .filter(Boolean)
-      : ["public"]; // no TO clause defaults to PUBLIC
-    // Allow if every listed role is a privileged/service role.
+      : ["public"];
     const privileged = new Set(["service_role", "postgres", "supabase_admin"]);
     const allPrivileged = roles.length > 0 && roles.every((r) => privileged.has(r));
     if (allPrivileged) continue;
@@ -109,7 +107,6 @@ function checkFile(file) {
         message: `SELECT policy uses USING (true) for role(s) [${roles.join(", ")}] — restrict via has_role()/auth.uid(), or add "-- security-check: allow <reason>" for intentional public reads.`,
       });
     }
-  }
   }
 
   // 2. SECURITY DEFINER without REVOKE EXECUTE in same file.
