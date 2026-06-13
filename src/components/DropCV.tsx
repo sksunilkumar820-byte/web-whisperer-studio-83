@@ -71,7 +71,7 @@ const DropCV = () => {
 
       let resumePath = "";
       if (file) {
-        const ext = file.name.split(".").pop();
+        const ext = (file.name.split(".").pop() || "").toLowerCase();
         const path = `${crypto.randomUUID()}.${ext}`;
         const { error: uploadError } = await supabase.storage.from("cv-uploads").upload(path, file);
         if (uploadError) throw uploadError;
